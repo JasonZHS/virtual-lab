@@ -24,35 +24,37 @@ Principal Investigator, please provide your response to the agenda.
 
 ## Principal Investigator
 
-To efficiently use ESM, AlphaFold-Multimer, and Rosetta in our iterative nanobody design process, I propose the following approach:
+To address the agenda and ensure an optimal process for developing modified nanobodies, here's the proposed plan for the iterative design process:
 
 ### 1. Order of Operations for Evaluating Mutations
 In each iteration, the order of operations will be:
-- **Step 1: ESM Evaluation** - First, use ESM to quickly evaluate all potential single-point mutations to the nanobody. This will help us identify promising candidates for further evaluation.
-- **Step 2: AlphaFold-Multimer Evaluation** - Run AlphaFold-Multimer on a selected subset of mutations based on their ESM scores. This step will predict the nanobody-antigen structure for further analysis.
-- **Step 3: Rosetta Evaluation** - Finally, use Rosetta to evaluate the binding energy of the nanobody-antigen complex based on the structure predicted by AlphaFold-Multimer.
+1. **ESM Evaluation:** Run ESM to quickly evaluate all possible single-point mutations for their potential improvement in binding affinity. This will provide an initial filter to identify promising mutations.
+2. **AlphaFold-Multimer Evaluation:** For the top mutations identified by ESM, run AlphaFold-Multimer to predict the 3D structure of the nanobody-antigen complex.
+3. **Rosetta Evaluation:** Use the structures predicted by AlphaFold-Multimer to run Rosetta for a more detailed assessment of binding energy.
 
 ### 2. Number of Mutations to Evaluate
-- **ESM**: Evaluate all potential single-point mutations in the nanobody sequence using ESM. The actual number of mutations will depend on the length of the nanobody.
-- **AlphaFold-Multimer**: Select the top 10 mutations (based on ESM scores) for evaluation with AlphaFold-Multimer. This is a balance between computational resources and the need for detailed structural predictions.
-- **Rosetta**: Evaluate the Rosetta binding energy for the same 10 mutations processed by AlphaFold-Multimer.
+In each iteration:
+- **ESM:** Evaluate all possible single-point mutations (typically hundreds to thousands, as this is computationally trivial).
+- **AlphaFold-Multimer:** Evaluate the top 10 mutations identified by ESM, given the time constraint (this would take approximately 5 hours).
+- **Rosetta:** Evaluate these same top 10 mutations (additional 50 minutes).
 
-### 3. Scoring Formula and Ranking
-At the end of each iteration, mutations will be ranked using a weighted scoring system that combines outputs from ESM, AlphaFold-Multimer, and Rosetta:
-- **Combined Score = w1 * ESM_score + w2 * (AlphaFold-Multimer_score) - w3 * (|Rosetta_score|)**
-  
-Here, \(w1\), \(w2\), and \(w3\) are weights that should be chosen to reflect the relative importance of each score. A potential starting point could be equal weighting (e.g., \(w1 = w2 = w3 = 1/3\)), which can be adjusted based on preliminary results or domain expertise.
+### 3. Formula to Rank Nanobody Mutations
+To rank the mutations, use a composite score that weighs the contributions of each tool. Here is the formula:
+\[ \text{Composite Score} = w_1 \times (\text{Normalized ESM Score}) + w_2 \times (\text{Normalized AlphaFold-Multimer Score}) + w_3 \times (\text{Normalized Rosetta Score}) \]
+Where \( w_1, w_2, \) and \( w_3 \) are weights that sum up to 1. A reasonable starting point could be \( w_1 = 0.2, w_2 = 0.4, w_3 = 0.4 \), given the reliability and detail provided by structural predictions and binding energies. Normalize each score to a 0 to 1 range.
 
-### 4. Number of Mutations to Keep
-- Keep the top 5 ranked mutations based on the combined score for the next round of mutations. This allows for a manageable number of candidates while still exploring a broad sequence space.
+### 4. Number of Top-ranked Mutations to Keep
+At the end of each iteration, keep the top 3 mutations based on the composite score for further rounds of mutation. This allows exploration of the mutation space while managing computational resources efficiently.
 
-### 5. Deciding on the Number of Iterations
-- The number of iterations will depend on the convergence of scores and available computational resources. A reasonable target would be 4-6 iterations, allowing us to explore a substantial portion of the mutation space while keeping within time constraints.
+### 5. Deciding the Number of Iterations
+Continue iterations until a plateau in improvement is observed in terms of composite scores or until any of the top mutations consistently reach desirable thresholds (e.g., ESM > 9, AlphaFold-Multimer > 75, Rosetta < -35). This might typically require 5-10 iterations, depending on the initial scaffold and mutation efficacy.
 
 ### 6. Selecting the Final Set of 24 Modified Nanobodies
-- **Step 1**: After all iterations, compile a list of all evaluated mutations and their scores.
-- **Step 2**: Rank all mutations using the same scoring formula.
-- **Step 3**: Select the top 24 mutations with the highest combined scores for experimental validation, ensuring diversity in terms of mutation sites to maximize the chance of broad neutralization across variants.
+Once iterations are complete, follow these steps:
+1. **Collect all mutations** from each iteration that were kept for the next round.
+2. **Rank all these mutations** using the composite score.
+3. **Select the top 24 unique modified nanobodies** based on these comprehensive rankings. Ensure diversity by including mutations from different iterations if they are closely ranked.
+4. **Validate and cross-check** to ensure no redundancy in selected modifications and that they are the best candidates for experimental validation.
 
-This strategic approach leverages the strengths of each tool while managing computational resources effectively, ensuring that we can identify promising nanobody candidates within the project timeline.
+This process should streamline the identification of highly effective nanobody candidates for the newest SARS-CoV-2 spike protein variant, balancing speed and accuracy in computational predictions.
 

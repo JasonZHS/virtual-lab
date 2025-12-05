@@ -24,35 +24,55 @@ Principal Investigator, please provide your response to the agenda.
 
 ## Principal Investigator
 
-To address the agenda for our research project on developing modified nanobodies for the newest variant of the SARS-CoV-2 spike protein, I propose the following plan:
+Certainly! Here's a detailed plan to address each point on the agenda:
 
 ### 1. Order of Operations for Evaluating Mutations
-In each iteration, the order of operations will be:
-- **ESM**: First, evaluate all potential mutations for a nanobody using ESM to quickly narrow down the most promising candidates. This step is computationally efficient and will take a total of 5 minutes for all mutations.
-- **AlphaFold-Multimer**: After filtering the mutations based on ESM scores, use AlphaFold-Multimer to predict the structure of the top-ranked mutations. This provides detailed structural insights necessary for subsequent steps.
-- **Rosetta**: Finally, use Rosetta on the structures predicted by AlphaFold-Multimer to evaluate the binding energy of the mutations.
 
-### 2. Number of Mutations Evaluated
-- **ESM**: Evaluate all possible mutations (potentially hundreds depending on the size of the nanobody) in each iteration.
-- **AlphaFold-Multimer and Rosetta**: Due to time constraints, evaluate the top 20 mutations from the ESM step using AlphaFold-Multimer. Then, evaluate all 20 with Rosetta using the structures from AlphaFold-Multimer.
+**Order: ESM → AlphaFold-Multimer → Rosetta**
 
-### 3. Weighing the Scores to Rank Mutations
-To rank the nanobody mutations, combine the scores from ESM, AlphaFold-Multimer, and Rosetta using the following formula:
-\[ \text{Score} = w_1 \times \text{(ESM Log-Likelihood Ratio)} + w_2 \times \text{(AlphaFold-Multimer Interface pLDDT)} - w_3 \times \text{(Rosetta Binding Energy)} \]
-Where \( w_1, w_2, \) and \( w_3 \) are weights that can be tuned based on empirical testing, with an initial suggestion of \( w_1 = 0.2, w_2 = 0.5, \) and \( w_3 = 0.3 \).
+- **ESM**: Start by evaluating all possible point mutations of the existing nanobody using the ESM model. This is computationally efficient, allowing us to rapidly narrow down potential candidates.
+  
+- **AlphaFold-Multimer**: For the top candidates selected based on ESM scores, use AlphaFold-Multimer to predict the 3D structure and assess the interface pLDDT scores.
+  
+- **Rosetta**: Finally, use Rosetta to calculate binding energy scores based on the AlphaFold-Multimer predictions. This step fine-tunes the selection by evaluating the stability and affinity of the nanobody-antigen complex.
 
-### 4. Number of Top-Ranked Mutations Kept
-Keep the top 5 mutations from each iteration to carry forward into the next round of iterations.
+### 2. Number of Mutations Evaluated per Iteration
 
-### 5. Deciding Number of Iterations
-Plan to run the process for up to 4 iterations, allowing for sufficient exploration of the sequence space while staying within time constraints. Monitor convergence of scores and diversity of mutations; if improvements plateau or all mutations appear similar, consider stopping early.
+- **ESM**: Evaluate all possible single-point mutations in the nanobody sequence. Assuming a typical nanobody length of around 120 amino acids and the possibility of 19 substitutions per position (excluding the original amino acid), there would be around 2,280 mutations.
 
-### 6. Selecting the Final Set of Modified Nanobodies
-After completing all iterations:
-- Collect all top mutations from each round.
-- Rank all mutations from all iterations based on the combined score.
-- Select the top 24 unique mutations with the highest scores, ensuring coverage of diverse mutational profiles to enhance potential cross-variant activity.
-- If there are ties or close scores, prioritize based on diversity of sequences to ensure broad coverage of the mutational landscape.
+- **AlphaFold-Multimer & Rosetta**: Use a computationally feasible number, such as the top 50 mutations based on ESM scores, for the subsequent steps. This balances computational load and diversity of mutations considered.
 
-This plan balances computational efficiency with scientific rigor, ensuring that we can effectively identify promising nanobody candidates within our constraints. Let me know if there are any questions or further adjustments needed.
+### 3. Scoring Formula to Rank Mutations
+
+To rank mutations, a composite score incorporating all three tools is necessary:
+
+\[ \text{Composite Score} = w_1 \times \text{ESM Score (normalized)} + w_2 \times \text{AlphaFold-Multimer pLDDT (normalized)} - w_3 \times \text{Rosetta Binding Energy (normalized)} \]
+
+- **Weights (w1, w2, w3)** can be initially set equal (e.g., 1/3 each) and adjusted based on empirical performance and validation.
+
+### 4. Number of Top-Ranked Mutations to Keep
+
+- **Top 10 Mutations**: Select the 10 highest-ranked mutations from each iteration for further exploration in the next round. This allows for sufficient diversity while maintaining focus on the most promising candidates.
+
+### 5. Number of Iterations to Run
+
+- Plan for **3 to 5 iterations**. The exact number can depend on the convergence of scores, diversity observed, and resource availability. Monitor convergence trends in scores and diversity of top candidates to decide when to stop.
+
+### 6. Final Selection of 24 Modified Nanobodies
+
+**Step-by-step Selection Process:**
+
+1. **Compile Top Mutations**: From all iterations, compile a list of all top mutations evaluated.
+
+2. **Re-rank with Final Scores**: Using the composite score formula, re-rank all mutations across iterations.
+
+3. **Select 24 Diverse Nanobodies**:
+   - Ensure diversity by selecting mutations that cover a range of ESM, AlphaFold-Multimer, and Rosetta scores.
+   - Consider different structural or binding feature variations to maximize potential cross-reactivity with minor variants.
+
+4. **Cross-Verify**: Re-evaluate the final 24 selections with cross-verification through additional simulation or in-silico validation if computationally feasible.
+
+5. **Prepare for Experimental Validation**: Proceed with experimental synthesis and validation of the 24 selected nanobodies.
+
+This plan ensures a strategic and balanced approach to nanobody design, maximizing utilization of computational resources while maintaining a focus on scientific impact.
 

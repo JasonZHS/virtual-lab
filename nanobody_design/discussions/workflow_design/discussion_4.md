@@ -24,37 +24,36 @@ Principal Investigator, please provide your response to the agenda.
 
 ## Principal Investigator
 
-To effectively use ESM, AlphaFold-Multimer, and Rosetta in the iterative design process for developing nanobodies, here are the answers to the agenda questions:
+To effectively utilize ESM, AlphaFold-Multimer, and Rosetta in the nanobody design process while adhering to the time constraints, the following plan addresses each agenda question:
 
 1. **Order of Operations for Evaluating Mutations:**
-   - First, run ESM to evaluate all potential mutations. ESM is fast and can evaluate all mutations in 5 minutes, providing an initial filter based on the log-likelihood ratios.
-   - Next, select a subset of top mutations from ESM to evaluate using AlphaFold-Multimer. This step refines the selection by modeling the nanobody-antigen complex and providing pLDDT scores.
-   - Finally, after obtaining the structural predictions from AlphaFold-Multimer, run Rosetta on these selected mutations to calculate binding energy scores, as Rosetta requires the structural output from AlphaFold-Multimer.
+   - **Step 1:** Use ESM to quickly evaluate all potential single mutations to the initial nanobody. This step will provide a rapid assessment of which mutations might positively influence binding.
+   - **Step 2:** Select the top mutations based on ESM scores for further evaluation.
+   - **Step 3:** Run AlphaFold-Multimer on the selected top mutations from ESM to predict the nanobody-antigen structure and evaluate the impact on binding confidence.
+   - **Step 4:** Use Rosetta to score the binding energy of these structures. This step provides a detailed energetic assessment of the mutation’s impact on binding.
 
 2. **Number of Mutations to Evaluate:**
-   - Evaluate all potential mutations with ESM. 
-   - For AlphaFold-Multimer and Rosetta, evaluate a manageable subset from the top ESM-ranked mutations, e.g., around 50 mutations per iteration, balancing computational time and resources.
+   - In each iteration, we will initially evaluate all possible single mutations using ESM. After this, we will narrow down based on ESM scores, selecting the top 20 mutations to evaluate using AlphaFold-Multimer and Rosetta, considering the time constraints with AlphaFold-Multimer.
 
 3. **Weighing the Scores to Rank Mutations:**
-   - After evaluating a mutation with all three tools, use a weighted scoring formula to rank them. For instance:
+   - Given the different nature of the scoring systems, we will use a normalized scoring formula to rank the mutations:
      \[
-     \text{Overall Score} = w_1 \times (\text{ESM score}) + w_2 \times (\text{AlphaFold-Multimer pLDDT score}) - w_3 \times (\text{Rosetta binding energy score})
+     \text{Score} = w_1 \cdot \left( \frac{\text{ESM score} - 5}{10 - 5} \right) + w_2 \cdot \left( \frac{\text{pLDDT score} - 60}{80 - 60} \right) + w_3 \cdot \left( \frac{-\text{Rosetta score} - (-40)}{-20 - (-40)} \right)
      \]
-   - Assign weights based on the importance of each factor: \(w_1 = 0.2\), \(w_2 = 0.5\), and \(w_3 = 0.3\), adjusting as necessary based on specific goals (e.g., structural stability versus binding affinity).
+   - Initial weights could be: \( w_1 = 0.3 \), \( w_2 = 0.3 \), \( w_3 = 0.4 \). The weights can be adjusted based on the reliability of the metrics as the process progresses.
 
 4. **Number of Top-Ranked Mutations to Keep:**
-   - Keep approximately the top 10 mutations from each iteration for further consideration, ensuring a focused yet diverse set of promising candidates for subsequent iterations.
+   - From each iteration, retain the top 5 mutations based on the combined scoring to ensure diverse and strong candidates are explored in subsequent rounds.
 
 5. **Deciding Number of Iterations:**
-   - Plan for approximately 3 to 4 iterations, allowing for refinement of nanobody candidates while maintaining a practical timeline. Adjust the number of iterations based on observed convergence of scores or resource availability.
+   - The process will iteratively introduce mutations until significant improvement in scoring metrics plateaus, or until we reach a predetermined goal, such as a 20% improvement in combined scores over the starting nanobody. Typically, this might take 3-5 iterations, which fits within the few days’ time constraint.
 
-6. **Selection of Final Nanobodies for Experimental Validation:**
-   - At the end of all iterations:
-     1. Compile the top-ranked mutations from each iteration based on the overall score.
-     2. Evaluate the diversity of the selected mutations to ensure coverage of different binding characteristics.
-     3. Select 24 final nanobody variants that represent a balance of top scores, diversity in mutation profiles, and computational resource efficiency.
-     4. Confirm the final selection with domain experts and align with the overarching research goals.
-     5. Prepare selected nanobodies for experimental validation, considering logistic and experimental constraints.
+6. **Selecting the Final Set of 24 Modified Nanobodies:**
+   - **Step 1:** Compile a list of all retained mutations across all iterations.
+   - **Step 2:** Rank these mutations based on the final combined scores.
+   - **Step 3:** Select the top 24 mutations from this ranked list.
+   - **Step 4:** Ensure diversity among the 24 selected mutations, considering not only score but also positional diversity in the nanobody sequence to reduce the risk of convergent errors or structural incompatibilities.
+   - **Step 5:** Prepare these 24 nanobody variants for experimental validation to assess their real-world binding efficiency and cross-reactivity.
 
-This strategy ensures a systematic approach to refining nanobody design through iterative computational analysis, balancing speed, accuracy, and resource allocation.
+By following this structured approach, we can efficiently leverage computational tools to enhance nanobody design against the newest SARS-CoV-2 variant while balancing computational resources and time constraints.
 

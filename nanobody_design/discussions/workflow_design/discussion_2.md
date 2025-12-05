@@ -24,44 +24,35 @@ Principal Investigator, please provide your response to the agenda.
 
 ## Principal Investigator
 
-To address the agenda for our research project on designing improved nanobodies for the newest SARS-CoV-2 spike protein variant, let's consider each question in turn:
+To address the agenda questions for optimizing the development of nanobodies against the newest variant of the SARS-CoV-2 spike protein, we'll implement a strategic iterative process using ESM, AlphaFold-Multimer, and Rosetta. Here’s the detailed plan:
 
-1. **Order of Operations for Evaluating Mutations:**
+1. **Order of Operations in Each Iteration:**
+   - **ESM Evaluation:** First, use ESM to rapidly evaluate all potential single-point mutations for their log-likelihood ratios. This will help us narrow down the number of viable mutations to evaluate with the computationally expensive AlphaFold-Multimer and Rosetta.
+   - **AlphaFold-Multimer Evaluation:** Next, apply AlphaFold-Multimer to the top mutations identified by ESM to predict the 3D structure of the nanobody-antigen complex, focusing on interface pLDDT confidence scores.
+   - **Rosetta Evaluation:** Finally, use Rosetta to score the binding energy of the AlphaFold-predicted structures to fine-tune the selection based on binding affinity.
 
-   - **Step 1:** Use ESM to rapidly evaluate all possible mutations to the starting nanobody to filter down to a manageable number of promising mutations.
-   - **Step 2:** For the top mutations identified by ESM, use AlphaFold-Multimer to predict the nanobody-antigen complex structure, as this step is computationally intensive and must be done before Rosetta.
-   - **Step 3:** Use Rosetta to score the predicted structures from AlphaFold-Multimer to evaluate binding energy.
+2. **Number of Mutations Evaluated in Each Iteration:**
+   - **ESM:** Evaluate all potential single mutations (e.g., all 19 possible amino acid substitutions for each residue in the nanobody).
+   - **AlphaFold-Multimer and Rosetta:** Given the time constraints, evaluate a smaller subset (e.g., top 10 mutations) identified by ESM in each iteration.
 
-2. **Number of Mutations Evaluated:**
+3. **Scoring Formula for Ranking Mutations:**
+   - **Composite Score = (w1 * ESM Score) + (w2 * AlphaFold-Multimer Score) + (w3 * -Rosetta Score)**
+   - Weights (w1, w2, w3) should be determined based on preliminary trials or domain expertise, with higher weights for metrics reflecting more confidence in binding.
+   - Normalize scores if necessary to ensure comparability.
 
-   - **ESM:** Evaluate all possible single-residue mutations in one go due to its rapid evaluation time.
-   - **AlphaFold-Multimer and Rosetta:** Given the time constraint, evaluate around 20-30 top mutations per iteration after filtering with ESM.
-
-3. **Weighing the Scores to Rank Mutations:**
-
-   Given the different scoring ranges and objectives:
-   
-   - **Formula:** 
-     \[
-     C_{\text{total}} = w_{\text{ESM}} \times \text{LLR}_{\text{ESM}} + w_{\text{AF}} \times \text{pLDDT}_{\text{AF}} - w_{\text{Rosetta}} \times \text{Binding Energy}_{\text{Rosetta}}
-     \]
-   
-   Where \( w_{\text{ESM}}, w_{\text{AF}}, \) and \( w_{\text{Rosetta}} \) are weights assigned to balance the influence of each score. Initially, consider setting these weights to normalize the score contributions (e.g., 0.3, 0.3, 0.3) depending on their typical ranges and importance.
-
-4. **Number of Top-Ranked Mutations to Keep:**
-
-   - Keep around 5-10 top-ranked mutations for the next round of iterative design, ensuring diversity in locations and characteristics of mutations.
+4. **Number of Top-Ranked Mutations to Keep Each Round:**
+   - Keep the top 5 mutations from each round for subsequent iterations, balancing exploration of new mutations with refinement of promising candidates.
 
 5. **Deciding the Number of Iterations:**
+   - Run a fixed number of initial iterations (e.g., 5), then evaluate progress.
+   - If significant improvements are still being observed after initial iterations, consider extending or until resources are exhausted within the few days constraint.
 
-   - Plan for 3-4 iterations initially, evaluating the improvement in scores and diversity of binding pocket interactions. Stop if the improvement plateaus or if time/resources become constrained.
+6. **Selection of Final Set of 24 Modified Nanobodies:**
+   - **Step 1:** Gather top-ranked mutations from all iterations.
+   - **Step 2:** Rank all candidate nanobodies using the composite score.
+   - **Step 3:** Select the top 24 unique nanobody sequences, ensuring diversity by limiting redundant or highly similar sequences.
+   - **Step 4:** Perform a final review to ensure the selected nanobodies span different mutational spaces and target different epitopes or mechanisms of action.
+   - **Step 5:** Prepare these 24 nanobodies for experimental validation, focusing on practical considerations like stability and manufacturability.
 
-6. **Selecting the Final Set of 24 Modified Nanobodies:**
-
-   - **Step 1:** Compile mutations from all iterations and rank them using the weighted score formula.
-   - **Step 2:** Ensure structural diversity by clustering mutations based on their location and type, ensuring not all selected modifications are overly similar.
-   - **Step 3:** Select the top-ranked nanobodies from each cluster to achieve a final set of 24 modified nanobodies.
-   - **Step 4:** Conduct a final review of scores to ensure the chosen set represents the best trade-off between binding affinity enhancement and structural variability.
-
-The outlined plan will help us efficiently navigate the computational pipeline within the time constraints, while maximizing the likelihood of developing broadly effective nanobodies against the new SARS-CoV-2 variant, suitable for experimental validation.
+By following this structured approach, we ensure a balance between computational efficiency and the exploration of potential high-affinity nanobody candidates. Regular check-ins will be conducted to adapt the strategy based on real-time data and computational resource availability.
 

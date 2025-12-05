@@ -671,7 +671,7 @@ Machine Learning Specialist, please provide your response to the agenda.
 
 ## Machine Learning Specialist
 
-Based on the summaries provided, here is a merged Python script that incorporates the best components from each individual answer. This script is designed to identify promising point mutations in a nanobody sequence using ESM amino acid log-likelihoods, aligning with the agenda's focus on developing antibodies for SARS-CoV-2 variants.
+Based on the summaries of the previous meetings, I have compiled a comprehensive Python script that integrates the best components from each summary. This script is designed to suggest modifications to an existing nanobody sequence using ESM amino acid log-likelihoods to identify the most promising point mutations by log-likelihood ratio. The script adheres to the agenda rules and incorporates enhancements from each meeting summary.
 
 ```python
 import argparse
@@ -699,39 +699,47 @@ def parse_arguments() -> Tuple[str, int]:
 
     return args.nanobody_sequence, args.top_n
 
-def compute_log_likelihood_ratios(seq: str, model, tokenizer) -> List[Tuple[int, str, str, float]]:
-    """Computes log-likelihood ratios for each possible point mutation in the sequence.
+def compute_log_likelihood_ratios(sequence: str, model, tokenizer) -> List[Tuple[int, str, str, float]]:
+    """
+    Compute log-likelihood ratios for each possible point mutation.
 
     Args:
-        seq (str): The input nanobody sequence.
+        sequence: Original amino acid sequence of the nanobody.
         model: The ESM model for masked language modeling.
         tokenizer: Tokenizer corresponding to the ESM model.
 
     Returns:
-        List[Tuple[int, str, str, float]]: A list of tuples containing position, original amino acid, mutated amino acid, and log-likelihood ratio.
+        A list of tuples with (position, original_aa, mutated_aa, log_likelihood_ratio).
     """
     try:
-        encoded_input = tokenizer(seq, return_tensors='pt', add_special_tokens=True)
+        # Encode the sequence for model input
+        encoded_input = tokenizer(sequence, return_tensors='pt', add_special_tokens=True)
         original_output = model(**encoded_input)
 
         log_likelihoods = []
-        amino_acids = 'ACDEFGHIKLMNPQRSTVWY'
         
-        for pos in range(1, len(seq) + 1):  # Skip [CLS] token which is at index 0
-            for aa in amino_acids:
-                if seq[pos - 1] == aa:
+        for pos in range(1, len(sequence) + 1):  # Skip [CLS] token which is at index 0
+            for aa in tokenizer.get_vocab().keys():
+                if aa not in "ACDEFGHIKLMNPQRSTVWY":  # only consider standard amino acids
                     continue
 
-                mutated_sequence = seq[:pos - 1] + aa + seq[pos:]
+                # Skip if the mutation is the same as the original
+                if sequence[pos - 1] == aa:
+                    continue
+
+                # Generate mutated sequence
+                mutated_sequence = sequence[:pos - 1] + aa + sequence[pos:]
                 mutated_input = tokenizer(mutated_sequence, return_tensors='pt', add_special_tokens=True)
                 mutated_output = model(**mutated_input)
 
-                original_ll = original_output.logits[0, pos, tokenizer.convert_tokens_to_ids(seq[pos-1])].item()
+                # Compute log likelihoods
+                original_ll = original_output.logits[0, pos, tokenizer.convert_tokens_to_ids(sequence[pos-1])].item()
                 mutated_ll = mutated_output.logits[0, pos, tokenizer.convert_tokens_to_ids(aa)].item()
                 ll_ratio = mutated_ll - original_ll
 
-                log_likelihoods.append((pos, seq[pos - 1], aa, ll_ratio))
+                log_likelihoods.append((pos, sequence[pos - 1], aa, ll_ratio))
 
+        # Sort by log-likelihood ratio
         return sorted(log_likelihoods, key=lambda x: x[3], reverse=True)
     except Exception as e:
         print(f"An error occurred during computation: {e}. Please ensure your sequence is valid and model is correctly loaded.")
@@ -740,6 +748,7 @@ def compute_log_likelihood_ratios(seq: str, model, tokenizer) -> List[Tuple[int,
 def main():
     nanobody_sequence, top_n = parse_arguments()
 
+    # Load the model and tokenizer
     try:
         print("Loading model and tokenizer...")
         model = EsmForMaskedLM.from_pretrained('facebook/esm1b-t33_650M_UR50S')
@@ -749,13 +758,16 @@ def main():
         print("Installation steps: pip install transformers torch")
         return
 
+    # Ensure CUDA availability for efficiency
     if not torch.cuda.is_available():
         print("Warning: CUDA is not available. Running on CPU may be slow. Consider using a cloud service with GPU support.")
         print("For CUDA installation, visit: https://pytorch.org/get-started/locally/")
 
+    # Compute log-likelihood ratios
     print("Computing log-likelihood ratios...")
     mutations = compute_log_likelihood_ratios(nanobody_sequence, model, tokenizer)
 
+    # Display the top N most promising mutations
     if mutations:
         print(f"Top {top_n} suggested mutations (position, original_aa, mutated_aa, log_likelihood_ratio):")
         for mutation in mutations[:top_n]:
@@ -763,6 +775,7 @@ def main():
     else:
         print("No mutations could be computed. Please check your input sequence and model.")
 
+    # Interpret results
     print("\nInterpretation:")
     print("Log-likelihood ratios indicate the relative likelihood of mutations improving binding affinity.")
     print("Higher positive values suggest potentially beneficial mutations, suitable for further experimental validation.")
@@ -774,20 +787,20 @@ if __name__ == '__main__':
 
 ### Components and Justifications:
 
-1. **ESM Model Integration** (from Summary 4 and 5):
-   - The script uses the `transformers` library to load the ESM model and tokenizer, providing a real-world implementation example. This was chosen for its practical application and alignment with the agenda's focus on using ESM data.
+1. **ESM Model Integration**: 
+   - From Summary 4, the script includes the use of `transformers` and `torch` libraries to load the ESM model and tokenizer, providing a real-world implementation for computing log-likelihoods.
 
-2. **Command-Line Argument Parsing** (from Summary 5):
-   - The script includes robust command-line parsing with input validation, ensuring users provide valid sequences and parameters. This enhances usability and prevents runtime errors.
+2. **Argument Parsing and Validation**:
+   - From Summary 5, the script includes robust argument parsing with validation checks for sequence and top-n values, ensuring user inputs are correct before processing.
 
-3. **Log-Likelihood Computation** (from Summary 4 and 5):
-   - The script computes log-likelihood ratios for mutations, focusing on amino acids relevant to the task. This aligns with the agenda's goal of identifying promising mutations.
+3. **Error Handling and User Guidance**:
+   - From Summary 4, the script includes detailed error handling and guidance for users, such as installation instructions and CUDA availability checks, to assist users in troubleshooting.
 
-4. **Error Handling and User Guidance** (from Summary 4):
-   - The script includes error handling for model loading and computation, with clear messages guiding users on setup and troubleshooting. This ensures robustness and user-friendliness.
+4. **Scientific Context and Interpretation**:
+   - From Summary 5, the script provides detailed interpretation of results, emphasizing the biological relevance of log-likelihood ratios and suggesting further experimental validation.
 
-5. **Biological Interpretation** (from Summary 4 and 5):
-   - The script provides guidance on interpreting results, emphasizing the need for experimental validation and considering biological context. This aligns with the scientific goals of the project.
+5. **Efficiency and Scalability**:
+   - From Summary 4, the script suggests using cloud-based solutions for computational efficiency, addressing potential performance issues when running on local machines without GPU support.
 
-These components were selected to create a comprehensive, user-friendly, and scientifically relevant script that meets the agenda's requirements for developing antibodies against SARS-CoV-2 variants.
+These components collectively ensure the script is comprehensive, user-friendly, and aligned with the research agenda of optimizing antibody designs against SARS-CoV-2 variants.
 

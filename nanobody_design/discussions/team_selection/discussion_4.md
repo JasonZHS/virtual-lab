@@ -4,13 +4,24 @@ This is the beginning of an individual meeting with Principal Investigator to di
 
 Here is the agenda for the meeting:
 
-You are working on a research project to use machine learning to develop antibodies or nanobodies for the newest variant of the SARS-CoV-2 spike protein that also, ideally, have activity against other circulating minor variants and past variants. You need to select a team of three scientists to help you with this project. Please select the team members that you would like to invite to a discussion to create the antibody/nanobody design approach. Please list the team members in the following format, using the team member below as an example. You should not include yourself (Principal Investigator) in the list.
+You are working on a research project to design a knowledge base that organizes and retrieves accurate information about ongoing research activities, enabling efficient reuse of prior work and supporting scalable knowledge updates across projects.
+You must now assemble a team of three scientists to design a structured knowledge base for this project.
+These team members will later participate in meetings to define a schema, identify sources of information, and decide how knowledge will be updated and validated.
+
+Please list exactly three team members in the following format.
+Do not include yourself.
 
 Agent(
-    title="Principal Investigator",
-    expertise="applying artificial intelligence to biomedical research",
-    goal="perform research in your area of expertise that maximizes the scientific impact of the work",
-    role="lead a team of experts to solve an important problem in artificial intelligence for biomedicine, make key decisions about the project direction based on team member input, and manage the project timeline and resources",
+title="Chief Knowledge Architect",
+expertise=(
+"knowledge graph construction, ontology development, information extraction, and schema governance"
+),
+goal=(
+"design a structure that enables scalable knowledge updates and supports retrieval-based reasoning"
+),
+role=(
+"propose schemas, specify entity/relationship definitions, design attribute-level constraints, and map knowledge sources to the schema"
+),
 )
 
 
@@ -18,28 +29,42 @@ Principal Investigator, please provide your response to the agenda.
 
 ## Principal Investigator
 
-For this project aimed at developing antibodies or nanobodies against the newest SARS-CoV-2 spike protein variant, while also targeting other circulating and past variants, I propose assembling a multidisciplinary team with expertise in immunology, structural biology, and machine learning. Here are the team members I suggest for this initial discussion:
-
-1. Agent(
-    title="Immunologist",
-    expertise="antibody generation and immunogenic response",
-    goal="provide insights into immune system interactions and guide the selection of potent antibody candidates",
-    role="advise on immunological principles, help prioritize targets, and assess potential cross-reactivity with other variants",
+Agent(
+title="Chief Knowledge Architect",
+expertise=(
+"knowledge graph construction, ontology development, information extraction, and schema governance"
+),
+goal=(
+"design a structure that enables scalable knowledge updates and supports retrieval-based reasoning"
+),
+role=(
+"propose schemas, specify entity/relationship definitions, design attribute-level constraints, and map knowledge sources to the schema"
+),
 )
 
-2. Agent(
-    title="Structural Biologist",
-    expertise="protein structure determination and analysis",
-    goal="analyze the spike protein structure and guide antibody design for optimal binding",
-    role="use structural data to inform antibody/nanobody design and predict binding efficacy across variants",
+Agent(
+title="Data Integration Scientist",
+expertise=(
+"data integration, ETL pipeline design, data quality assessment, and provenance tracking"
+),
+goal=(
+"identify, extract, and normalize data from heterogeneous sources while ensuring data quality and traceability"
+),
+role=(
+"catalog data sources, design ingestion and normalization workflows, define data cleaning and validation protocols, and manage data provenance"
+),
 )
 
-3. Agent(
-    title="Machine Learning Specialist",
-    expertise="applying AI and ML models to biological data",
-    goal="develop and optimize machine learning models for antibody prediction and variant analysis",
-    role="create predictive algorithms to identify candidate antibodies/nanobodies and evaluate their cross-variant efficacy",
+Agent(
+title="Knowledge Validation Lead",
+expertise=(
+"knowledge curation, crowdsourcing validation, automated consistency checking, and domain expert engagement"
+),
+goal=(
+"develop robust methods for knowledge validation and continual updates to maintain accuracy and reliability"
+),
+role=(
+"design validation workflows, implement consistency and correctness checks, coordinate expert-in-the-loop review, and propose update/rollback mechanisms"
+),
 )
-
-This team composition ensures a comprehensive approach to our project, leveraging both biological understanding and computational power to develop effective therapeutics against SARS-CoV-2.
 

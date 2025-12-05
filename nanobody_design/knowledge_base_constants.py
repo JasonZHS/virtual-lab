@@ -1,9 +1,8 @@
-"""Constants for the nanobody design project."""
+"""Constants for the knowledge base design project."""
 
 from pathlib import Path
 
 from virtual_lab.agent import Agent
-# from virtual_lab.prompts import SCIENTIFIC_CRITIC
 from virtual_lab.prompts import (
     SCIENTIFIC_CRITIC,
     PRINCIPAL_INVESTIGATOR
@@ -14,8 +13,8 @@ num_iterations = 5
 num_rounds = 3
 
 # Models
-model = "gpt-4o-2024-08-06"
-model_mini = "gpt-5-mini"
+model = "gpt-4.1"
+model_mini = "gpt-4.1-mini"
 
 # Discussion paths
 discussions_dir = Path("discussions")
@@ -37,7 +36,6 @@ phases = workflow_phases + ablations_phases + human_eval_phases + finetuning_pha
 discussions_phase_to_dir = {phase: discussions_dir / phase for phase in phases}
 
 # Prompts
-#background_prompt = "You are working on a research project to use machine learning to develop antibodies or nanobodies for the newest variant of the SARS-CoV-2 spike protein that also, ideally, have activity against other circulating minor variants and past variants."
 background_prompt = "You are working on a research project to design a knowledge base that organizes and retrieves accurate information about ongoing research activities, enabling efficient reuse of prior work and supporting scalable knowledge updates across projects."
 
 nanobody_prompt = "Your team previous decided to modify existing nanobodies to improve their binding to the newest variant of the SARS-CoV-2 spike protein."
@@ -94,40 +92,76 @@ principal_investigator = Agent(
     model=model,
 )
 """
-principal_investigator = PRINCIPAL_INVESTIGATOR
+principal_investigator = Agent(
+    title="Principal Investigator",
+    expertise=(
+        "designing and leading knowledge graph projects, including ontology/schema design, "
+        "data integration, and graph representation learning"
+    ),
+    goal=(
+        "design and execute a research program that builds a high-quality, scalable knowledge graph "
+        "for a specific target domain and uses it to support downstream tasks such as question answering, "
+        "recommendation, and reasoning"
+    ),
+    role=(
+        "lead a team of experts to define the knowledge graph schema and ontology, select and integrate "
+        "data sources, design extraction and cleaning pipelines, and specify how the graph will be "
+        "evaluated using both intrinsic and task-based metrics. Make key decisions about trade-offs between "
+        "coverage, precision, scalability, and maintainability, and keep the project on a realistic timeline."
+    ),
+    model=model,
+)
 
 # Scientific critic
 scientific_critic = SCIENTIFIC_CRITIC
 
 # Specialized science agents
-immunologist = Agent(
-    title="Immunologist",
-    expertise="antibody engineering and immune response characterization",
-    goal="guide the development of antibodies/nanobodies that elicit a strong and broad immune response",
-    role="advise on immunogenicity, cross-reactivity with other variants, and potential for therapeutic application, ensuring the designs are viable for experimental validation and downstream applications",
+chief_knowledge_architect = Agent(
+    title="Chief Knowledge Architect",
+    expertise=(
+    "knowledge graph construction, ontology development, information extraction, and schema governance"
+    ),
+    goal=(
+    "design a structure that enables scalable knowledge updates and supports retrieval-based reasoning"
+    ),
+    role=(
+    "propose schemas, specify entity/relationship definitions, design attribute-level constraints, and map knowledge sources to the schema"
+    ),
     model=model,
 )
 
-machine_learning_specialist = Agent(
-    title="Machine Learning Specialist",
-    expertise="developing algorithms for protein-ligand interactions and optimization",
-    goal="create and apply machine learning models to predict antibody efficacy and optimize binding affinity across SARS-CoV-2 variants",
-    role="lead the development of AI tools for predicting interactions and refining antibody designs based on computational results",
-    model=model,
+data_integration_scientist = Agent(
+    title="Data Integration Scientist",
+    expertise=(
+    "data integration, ETL pipeline design, data cleaning, entity resolution, metadata standardization, and provenance tracking"
+    ),
+    goal=(
+    "identify, extract, and harmonize heterogeneous data sources about ongoing research activities into the knowledge base"
+    ),
+    role=(
+    "evaluate and select data sources, design extraction and cleaning pipelines, resolve duplicate or conflicting entities, ensure metadata consistency, and establish data provenance tracking"
+    ),
+    model=model
 )
 
-computational_biologist = Agent(
-    title="Computational Biologist",
-    expertise="protein structure prediction and molecular dynamics simulations",
-    goal="develop predictive models to identify potential antibody/nanobody candidates and simulate interactions with the SARS-CoV-2 spike protein",
-    role="provide insights into structural dynamics, guide virtual screening efforts, and validate computational predictions with simulations",
-    model=model,
+knowledge_validation_specialist = Agent(
+    title="Knowledge Validation Specialist",
+    expertise=(
+    "knowledge base quality assurance, validation frameworks, automated and manual validation, consistency checking, and benchmarking for knowledge-driven tasks"
+    ),
+    goal=(
+    "ensure the correctness, consistency, and up-to-dateness of the knowledge base through robust validation and continual updates"
+    ),
+    role=(
+    "define validation protocols, implement consistency and correctness checks, coordinate expert-in-the-loop review, set up automated/manual review pipelines, and design benchmarks for retrieval, reuse, and reasoning tasks"
+    ),
+    model=model
 )
 
 # Team members
 team_members = (
-    immunologist,
-    machine_learning_specialist,
-    computational_biologist,
+    chief_knowledge_architect,
+    data_integration_scientist,
+    knowledge_validation_specialist,
     scientific_critic,
 )
