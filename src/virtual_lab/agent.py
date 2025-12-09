@@ -4,17 +4,16 @@
 class Agent:
     """An LLM agent."""
 
-    def __init__(self, title: str, expertise: str, goal: str, role: str, model: str) -> None:
+    def __init__(self, title: str, expertise: str, role: str, model: str) -> None:
         """Initializes the agent.
 
         :param title: The title of the agent.
         :param expertise: The expertise of the agent.
-        :param goal: The goal of the agent.
         :param role: The role of the agent.
         """
         self.title = title
         self.expertise = expertise
-        self.goal = goal
+        # self.goal = goal
         self.role = role
         self.model = model
 
@@ -24,7 +23,7 @@ class Agent:
         return (
             f"You are a {self.title}. "
             f"Your expertise is in {self.expertise}. "
-            f"Your goal is to {self.goal}. "
+            # f"Your goal is to {self.goal}. "
             f"Your role is to {self.role}."
         )
 
@@ -48,7 +47,7 @@ class Agent:
         return (
             self.title == other.title
             and self.expertise == other.expertise
-            and self.goal == other.goal
+            # and self.goal == other.goal
             and self.role == other.role
             and self.model == other.model
         )

@@ -9,8 +9,8 @@ from virtual_lab.prompts import (
 )
 
 # Meetings constants
-num_iterations = 5
-num_rounds = 3
+num_iterations = 2
+num_rounds = 2
 
 # Models
 model = "gpt-4.1"
@@ -36,7 +36,7 @@ phases = workflow_phases + ablations_phases + human_eval_phases + finetuning_pha
 discussions_phase_to_dir = {phase: discussions_dir / phase for phase in phases}
 
 # Prompts
-background_prompt = "You are working on a research project to design a knowledge base that organizes and retrieves accurate information about ongoing research activities, enabling efficient reuse of prior work and supporting scalable knowledge updates across projects."
+background_prompt = "Task: Build a scalable, retrieval-optimized Knowledge Graph for Alzheimer's Disease research."
 
 nanobody_prompt = "Your team previous decided to modify existing nanobodies to improve their binding to the newest variant of the SARS-CoV-2 spike protein."
 
@@ -56,7 +56,7 @@ VHH-72: The wild-type only binds to the Wuhan RBD. Most mutants show binding to 
 generic_agent = Agent(
     title="Assistant",
     expertise="helping people with their problems",
-    goal="help people with their problems",
+    #goal="help people with their problems",
     role="help people with their problems",
     model=model,
 )
@@ -65,7 +65,7 @@ generic_agent = Agent(
 generic_team_lead = Agent(
     title=f"{generic_agent.title} Lead",
     expertise=generic_agent.expertise,
-    goal=generic_agent.goal,
+    #goal=generic_agent.goal,
     role=generic_agent.role,
     model=model,
 )
@@ -75,7 +75,7 @@ generic_team = [
     Agent(
         title=f"{generic_agent.title} {i}",
         expertise=generic_agent.expertise,
-        goal=generic_agent.goal,
+        #goal=generic_agent.goal,
         role=generic_agent.role,
         model=model,
     )
@@ -92,76 +92,64 @@ principal_investigator = Agent(
     model=model,
 )
 """
-principal_investigator = Agent(
-    title="Principal Investigator",
-    expertise=(
-        "designing and leading knowledge graph projects, including ontology/schema design, "
-        "data integration, and graph representation learning"
-    ),
-    goal=(
-        "design and execute a research program that builds a high-quality, scalable knowledge graph "
-        "for a specific target domain and uses it to support downstream tasks such as question answering, "
-        "recommendation, and reasoning"
-    ),
-    role=(
-        "lead a team of experts to define the knowledge graph schema and ontology, select and integrate "
-        "data sources, design extraction and cleaning pipelines, and specify how the graph will be "
-        "evaluated using both intrinsic and task-based metrics. Make key decisions about trade-offs between "
-        "coverage, precision, scalability, and maintainability, and keep the project on a realistic timeline."
-    ),
-    model=model,
-)
+principal_investigator = PRINCIPAL_INVESTIGATOR
 
 # Scientific critic
 scientific_critic = SCIENTIFIC_CRITIC
 
 # Specialized science agents
-chief_knowledge_architect = Agent(
-    title="Chief Knowledge Architect",
+tech_lead = Agent(
+    title="Tech Lead (AlzKB Engineering)",
     expertise=(
-    "knowledge graph construction, ontology development, information extraction, and schema governance"
-    ),
-    goal=(
-    "design a structure that enables scalable knowledge updates and supports retrieval-based reasoning"
+        "Expert in scalable graph database design, biomedical data pipelines, and API architecture. "
+        "Specializes in integrating multi-modal datasets (EHR, MRI, genomics) into high-throughput graph infrastructures. "
+        "Proficient in implementing robust ETL pipelines ensuring reproducibility, data lineage, and system scalability."
     ),
     role=(
-    "propose schemas, specify entity/relationship definitions, design attribute-level constraints, and map knowledge sources to the schema"
+        "1. Architect and implement the KG platform with retrieval-optimized storage (e.g., Neo4j, Blazegraph). "
+        "2. Prioritize ingestion of validated, high-confidence AD datasets (e.g., ADNI, AMP-AD). "
+        "3. Oversee entity mapping and cross-modal linkage algorithms for clinical, imaging, and biomarker data. "
+        "4. Ensure system scalability, security, and reproducibility, collaborating with Data Curator to enforce schema alignment and entity integrity."
     ),
     model=model,
 )
 
-data_integration_scientist = Agent(
-    title="Data Integration Scientist",
+data_curator = Agent(
+    title="Data Curator (AlzKB Ontologies)",
     expertise=(
-    "data integration, ETL pipeline design, data cleaning, entity resolution, metadata standardization, and provenance tracking"
-    ),
-    goal=(
-    "identify, extract, and harmonize heterogeneous data sources about ongoing research activities into the knowledge base"
+        "Expert in biomedical ontology mapping, normalization, and curation. "
+        "Experienced in aligning disparate datasets with standard vocabularies (e.g., SNOMED CT, Gene Ontology, UMLS) "
+        "and resolving cross-modal entity ambiguities across clinical, imaging, and molecular domains."
     ),
     role=(
-    "evaluate and select data sources, design extraction and cleaning pipelines, resolve duplicate or conflicting entities, ensure metadata consistency, and establish data provenance tracking"
+        "1. Map all data elements to standardized ontologies and controlled vocabularies. "
+        "2. Develop schema constraints for consistent phenotype/genotype mapping and cross-domain interoperability. "
+        "3. Oversee entity resolution and validate extraction outputs to minimize semantic drift and false associations. "
+        "4. Curate and maintain reference mappings for evolving AD research terms, ensuring FAIR data practices."
     ),
-    model=model
+    model=model,
 )
 
-knowledge_validation_specialist = Agent(
-    title="Knowledge Validation Specialist",
+validation_scientist = Agent(
+    title="Data Quality & Validation Scientist",
     expertise=(
-    "knowledge base quality assurance, validation frameworks, automated and manual validation, consistency checking, and benchmarking for knowledge-driven tasks"
-    ),
-    goal=(
-    "ensure the correctness, consistency, and up-to-dateness of the knowledge base through robust validation and continual updates"
+        "Expert in biomedical data curation, multimodal entity resolution, and statistical quality control. "
+        "Experienced in precision-focused validation of graph-based extraction workflows, provenance tracking, "
+        "and gold-standard evaluation set development."
     ),
     role=(
-    "define validation protocols, implement consistency and correctness checks, coordinate expert-in-the-loop review, set up automated/manual review pipelines, and design benchmarks for retrieval, reuse, and reasoning tasks"
+        "1. Design and implement protocols for high-precision entity extraction and resolution across modalities. "
+        "2. Develop gold-standard evaluation sets and adjudicate ambiguous associations. "
+        "3. Monitor the KG for data consistency, provenance, and anomaly detection. "
+        "4. Lead error analysis, continuous improvement of data ingestion pipelines, and coordinate expert/human-in-the-loop review."
     ),
-    model=model
+    model=model,
 )
 
 # Team members
 team_members = (
-    chief_knowledge_architect,
-    data_integration_scientist,
-    knowledge_validation_specialist,
     scientific_critic,
+    tech_lead,
+    data_curator,
+    validation_scientist,
 )

@@ -1,70 +1,74 @@
 ## User
 
-This is the beginning of an individual meeting with Principal Investigator to discuss your research project.
+This is the beginning of an individual meeting with Principal Investigator (Alzheimer's KG) to discuss your research project.
 
 Here is the agenda for the meeting:
 
-You are working on a research project to design a knowledge base that organizes and retrieves accurate information about ongoing research activities, enabling efficient reuse of prior work and supporting scalable knowledge updates across projects.
-You must now assemble a team of three scientists to design a structured knowledge base for this project.
-These team members will later participate in meetings to define a schema, identify sources of information, and decide how knowledge will be updated and validated.
+Task: Build a scalable, retrieval-optimized Knowledge Graph for Alzheimer's Disease research.
+TASK: Define 3 distinct Agents to form the AlzKB Implementation Team.
 
-Please list exactly three team members in the following format.
+OUTPUT FORMAT: Python `Agent()` objects ONLY. No conversational filler.
 Do not include yourself.
-
+TEMPLATE:
 Agent(
-title="Chief Knowledge Architect",
-expertise=(
-"knowledge graph construction, ontology development, information extraction, and schema governance"
-),
-goal=(
-"design a structure that enables scalable knowledge updates and supports retrieval-based reasoning"
-),
-role=(
-"propose schemas, specify entity/relationship definitions, design attribute-level constraints, and map knowledge sources to the schema"
-),
+    title="Principal Investigator (Alzheimer's KG)",
+    expertise=(
+        "Lead scientist specializing in Alzheimer's Disease (AD) data integration. "
+        "Expert in constructing heterogeneous Knowledge Graphs connecting clinical phenotypes, "
+        "neuroimaging features, genetic biomarkers (e.g., APOE), and tau/amyloid pathology."
+    ),
+    role=(
+        "1. Define rigorous schemas aligning with standard ontologies (e.g., SNOMED CT, Gene Ontology). "
+        "2. Direct the Tech Lead to prioritize high-confidence data sources (e.g., ADNI, AMP-AD). "
+        "3. Review extraction pipelines for precision over recall to prevent hallucinated associations. "
+        "4. Enforce strict validation protocols for entity resolution across multi-modal datasets."
+    ),
 )
 
 
-Principal Investigator, please provide your response to the agenda.
+Principal Investigator (Alzheimer's KG), please provide your response to the agenda.
 
-## Principal Investigator
+## Principal Investigator (Alzheimer's KG)
 
 Agent(
-title="Chief Knowledge Architect",
-expertise=(
-"knowledge graph construction, ontology development, information extraction, and schema governance"
-),
-goal=(
-"design a structure that enables scalable knowledge updates and supports retrieval-based reasoning"
-),
-role=(
-"propose schemas, specify entity/relationship definitions, design attribute-level constraints, and map knowledge sources to the schema"
-),
+    title="Tech Lead (AlzKB Engineering)",
+    expertise=(
+        "Expert in scalable graph database design, biomedical data pipelines, and API architecture. "
+        "Specializes in integrating multi-modal datasets (EHR, MRI, genomics) into high-throughput graph infrastructures."
+    ),
+    role=(
+        "1. Architect and implement the KG platform with retrieval-optimized storage (e.g., Neo4j, Blazegraph). "
+        "2. Prioritize ingestion of validated, high-confidence AD datasets (e.g., ADNI, AMP-AD). "
+        "3. Oversee entity mapping and cross-modal linkage algorithms. "
+        "4. Ensure system scalability, security, and reproducibility."
+    ),
 )
 
 Agent(
-title="Research Data Integration Scientist",
-expertise=(
-"data integration, entity resolution, metadata standardization, and API/data pipeline engineering"
-),
-goal=(
-"identify, acquire, and harmonize heterogeneous research data sources into the knowledge base"
-),
-role=(
-"curate and ingest data sources, resolve entity conflicts, ensure metadata consistency, and design scalable data ingestion workflows"
-),
+    title="Ontology/Data Standards Specialist",
+    expertise=(
+        "Specialist in biomedical ontologies (SNOMED CT, UMLS, Gene Ontology) and semantic data modeling. "
+        "Experienced in harmonizing clinical, imaging, and molecular vocabularies for disease knowledge representation."
+    ),
+    role=(
+        "1. Map all data elements to standardized ontologies and controlled vocabularies. "
+        "2. Define schema alignment strategies for cross-domain interoperability. "
+        "3. Curate and maintain reference mappings for evolving AD research terms. "
+        "4. Advise on FAIR (Findable, Accessible, Interoperable, Reusable) data best practices."
+    ),
 )
 
 Agent(
-title="Knowledge Validation and Evaluation Specialist",
-expertise=(
-"knowledge base evaluation, validation protocols, data quality assurance, and benchmarking for knowledge-driven tasks"
-),
-goal=(
-"establish processes and criteria for validating and maintaining knowledge quality and supporting downstream task evaluation"
-),
-role=(
-"define validation criteria, set up automated/manual review pipelines, and design benchmarks for retrieval, reuse, and reasoning tasks"
-),
+    title="Data Quality & Validation Scientist",
+    expertise=(
+        "Expert in biomedical data curation, multimodal entity resolution, and statistical quality control. "
+        "Experienced in precision-focused validation of graph-based extraction workflows and provenance tracking."
+    ),
+    role=(
+        "1. Design and implement protocols for high-precision entity extraction and resolution. "
+        "2. Develop gold-standard evaluation sets and adjudicate ambiguous associations. "
+        "3. Monitor KG for data consistency, provenance, and anomaly detection. "
+        "4. Lead error analysis and continuous improvement of data ingestion pipelines."
+    ),
 )
 

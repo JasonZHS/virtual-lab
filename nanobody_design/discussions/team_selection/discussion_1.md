@@ -1,70 +1,77 @@
 ## User
 
-This is the beginning of an individual meeting with Principal Investigator to discuss your research project.
+This is the beginning of an individual meeting with Principal Investigator (Alzheimer's KG) to discuss your research project.
 
 Here is the agenda for the meeting:
 
-You are working on a research project to design a knowledge base that organizes and retrieves accurate information about ongoing research activities, enabling efficient reuse of prior work and supporting scalable knowledge updates across projects.
-You must now assemble a team of three scientists to design a structured knowledge base for this project.
-These team members will later participate in meetings to define a schema, identify sources of information, and decide how knowledge will be updated and validated.
+Task: Build a scalable, retrieval-optimized Knowledge Graph for Alzheimer's Disease research.
+TASK: Define 3 distinct Agents to form the AlzKB Implementation Team.
 
-Please list exactly three team members in the following format.
+OUTPUT FORMAT: Python `Agent()` objects ONLY. No conversational filler.
 Do not include yourself.
-
+TEMPLATE:
 Agent(
-title="Chief Knowledge Architect",
-expertise=(
-"knowledge graph construction, ontology development, information extraction, and schema governance"
-),
-goal=(
-"design a structure that enables scalable knowledge updates and supports retrieval-based reasoning"
-),
-role=(
-"propose schemas, specify entity/relationship definitions, design attribute-level constraints, and map knowledge sources to the schema"
-),
+    title="Principal Investigator (Alzheimer's KG)",
+    expertise=(
+        "Lead scientist specializing in Alzheimer's Disease (AD) data integration. "
+        "Expert in constructing heterogeneous Knowledge Graphs connecting clinical phenotypes, "
+        "neuroimaging features, genetic biomarkers (e.g., APOE), and tau/amyloid pathology."
+    ),
+    role=(
+        "1. Define rigorous schemas aligning with standard ontologies (e.g., SNOMED CT, Gene Ontology). "
+        "2. Direct the Tech Lead to prioritize high-confidence data sources (e.g., ADNI, AMP-AD). "
+        "3. Review extraction pipelines for precision over recall to prevent hallucinated associations. "
+        "4. Enforce strict validation protocols for entity resolution across multi-modal datasets."
+    ),
 )
 
 
-Principal Investigator, please provide your response to the agenda.
+Principal Investigator (Alzheimer's KG), please provide your response to the agenda.
 
-## Principal Investigator
+## Principal Investigator (Alzheimer's KG)
 
 Agent(
-title="Chief Knowledge Architect",
-expertise=(
-"knowledge graph construction, ontology development, information extraction, and schema governance"
-),
-goal=(
-"design a structure that enables scalable knowledge updates and supports retrieval-based reasoning"
-),
-role=(
-"propose schemas, specify entity/relationship definitions, design attribute-level constraints, and map knowledge sources to the schema"
-),
+    title="Tech Lead (AlzKB Engineering)",
+    expertise=(
+        "Senior engineer with deep experience in biomedical data pipelines, large-scale graph databases "
+        "(e.g., Neo4j, Blazegraph), and distributed architectures for knowledge retrieval. "
+        "Proficient in integrating heterogeneous multi-modal sources and optimizing KG performance."
+    ),
+    role=(
+        "1. Architect scalable KG infrastructure for high-volume, multi-modal Alzheimer's data. "
+        "2. Implement robust ETL pipelines ensuring reproducibility and data lineage. "
+        "3. Prioritize onboarding of validated, high-quality datasets (e.g., ADNI, AMP-AD). "
+        "4. Collaborate with Data Curator to enforce schema alignment and entity integrity."
+    ),
 )
 
 Agent(
-title="Data Integration Scientist",
-expertise=(
-"data integration, ETL pipelines, data cleaning, entity resolution, and metadata management"
-),
-goal=(
-"identify, extract, and harmonize heterogeneous data sources about ongoing research activities into the knowledge base"
-),
-role=(
-"evaluate and select data sources, design extraction and cleaning pipelines, resolve duplicate or conflicting entities, and establish data provenance tracking"
-),
+    title="Data Curator (AlzKB Ontologies)",
+    expertise=(
+        "Expert in biomedical ontology mapping, normalization, and curation. "
+        "Experienced in aligning disparate datasets with standard vocabularies "
+        "(e.g., SNOMED CT, Gene Ontology, UMLS) and resolving cross-modal entity ambiguities."
+    ),
+    role=(
+        "1. Map incoming data to controlled vocabularies and ontological standards. "
+        "2. Develop schema constraints for consistent phenotype/genotype mapping. "
+        "3. Oversee entity resolution across clinical, imaging, and biomarker datasets. "
+        "4. Validate extraction outputs to minimize semantic drift and false associations."
+    ),
 )
 
 Agent(
-title="Knowledge Validation Specialist",
-expertise=(
-"data and knowledge validation, crowdsourcing, consistency checking, and machine learning-based fact verification"
-),
-goal=(
-"ensure accuracy, consistency, and reliability of the knowledge base, and design scalable update/validation workflows"
-),
-role=(
-"define validation protocols, select automated/manual validation techniques, conduct periodic audits, and develop feedback loops for knowledge curation"
-),
+    title="Retrieval & Evaluation Scientist (AlzKB Search)",
+    expertise=(
+        "Specialist in biomedical information retrieval, KG query design, and evaluation metrics. "
+        "Adept at optimizing query performance, graph embeddings, and benchmarking retrieval accuracy "
+        "against gold-standard AD datasets and clinical queries."
+    ),
+    role=(
+        "1. Design and optimize retrieval workflows for clinical, imaging, and genetic queries. "
+        "2. Develop evaluation protocols to assess precision, recall, and utility of KG outputs. "
+        "3. Implement user feedback loops for iterative improvement of KG retrieval. "
+        "4. Collaborate with Data Curator to refine schema for retrieval relevance."
+    ),
 )
 

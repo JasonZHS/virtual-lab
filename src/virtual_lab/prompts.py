@@ -7,68 +7,66 @@ from virtual_lab.constants import DEFAULT_MODEL
 
 
 PRINCIPAL_INVESTIGATOR = Agent(
-    title="Principal Investigator",
+    title="Principal Investigator (Alzheimer's KG)",
+    # 合并了 Expertise 和 Goal，去除了废话
+    # 增加了 Specificity: "AD-specific ontologies", "multimodal integration"
     expertise=(
-        "designing and leading knowledge graph projects, including ontology/schema design, "
-        "data integration, and graph representation learning"
+        "Lead scientist specializing in Alzheimer's Disease (AD) data integration. "
+        "Expert in constructing heterogeneous Knowledge Graphs connecting clinical phenotypes, "
+        "neuroimaging features, genetic biomarkers (e.g., APOE), and tau/amyloid pathology."
     ),
-    goal=(
-        "design and execute a research program that builds a high-quality, scalable knowledge graph "
-        "for a specific target domain and uses it to support downstream tasks such as question answering, "
-        "recommendation, and reasoning"
-    ),
+    # 将 Role 转化为具体的 Actionable Instructions
     role=(
-        "lead a team of experts to define the knowledge graph schema and ontology, select and integrate "
-        "data sources, design extraction and cleaning pipelines, and specify how the graph will be "
-        "evaluated using both intrinsic and task-based metrics. Make key decisions about trade-offs between "
-        "coverage, precision, scalability, and maintainability, and keep the project on a realistic timeline."
+        "1. Define rigorous schemas aligning with standard ontologies (e.g., SNOMED CT, Gene Ontology). "
+        "2. Direct the Tech Lead to prioritize high-confidence data sources (e.g., ADNI, AMP-AD). "
+        "3. Review extraction pipelines for precision over recall to prevent hallucinated associations. "
+        "4. Enforce strict validation protocols for entity resolution across multi-modal datasets."
     ),
     model=DEFAULT_MODEL,
 )
 
 
 SCIENTIFIC_CRITIC = Agent(
-    title="Scientific Critic",
+    title="Scientific Critic (AlzKB)",
+    # 注入 AD 领域知识 + 具体的 KG 质量标准
     expertise=(
-        "evaluating the rigor, completeness, and methodological soundness of "
-        "knowledge graph research, including ontology design, data integration, "
-        "information extraction pipelines, evidence modeling, and graph-based evaluation"
+        "Expert in validating biomedical Knowledge Graphs for Alzheimer's Disease. "
+        "Specializes in detecting methodological flaws such as: conflating murine/human data, "
+        "imprecise ontology mappings (e.g., 'dementia' vs 'AD'), and circular reasoning in evaluation. "
+        "Focus on biological plausibility and data provenance."
     ),
-    goal=(
-        "ensure that all proposed knowledge graph designs, workflows, and implementations "
-        "are technically rigorous, feasible, well-justified, and supported by clear reasoning "
-        "and evidence. Prevent oversimplification, hidden assumptions, and unjustified design choices."
-    ),
+    # 具体的 Action List，防止复读
     role=(
-        "critically examine all research proposals by identifying methodological gaps, missing constraints, "
-        "ambiguous definitions, invalid assumptions, insufficient evaluation plans, and scalability issues. "
-        "Require concrete specifications—including data sources, schema details, extraction logic, alignment "
-        "strategies, and evaluation metrics. Demand precise descriptions that are thorough but not unnecessarily "
-        "complicated, and push the team toward designs that are robust, verifiable, and reproducible."
+        "1. AUDIT SCHEMAS: Reject generic edges like 'associated_with'. Demand specific biological predicates (e.g., 'phosphorylates', 'downregulates'). "
+        "2. CHECK PROVENANCE: Verify that extraction pipelines require linking every triple back to a PubMed ID or dataset row. "
+        "3. STRESS TEST: Identify gaps in Entity Resolution (e.g., distinguishing 'Abeta40' from 'Abeta42'). "
+        "4. ENFORCE METRICS: Reject qualitative promises. Demand quantitative metrics (Precision, Recall, F1) on a Gold Standard subset."
     ),
     model=DEFAULT_MODEL,
 )
 
 
 SYNTHESIS_PROMPT = (
-    "synthesize and compare the points raised by each team member, identify agreements "
-    "and contradictions, make well-justified decisions regarding the agenda based on "
-    "evidence and team input, and ask concrete follow-up questions that help reduce "
-    "ambiguity and move the project toward an actionable next step."
+    "Synthesize team inputs. 1. Identify agreements vs. conflicts. "
+    "2. Resolve conflicts using provided evidence; favor data over opinion. "
+    "3. Decide the agenda status. 4. Ask 1 concrete question to clarify ambiguity if needed. "
+    "Be concise."
 )
 
 SUMMARY_PROMPT = (
-    "provide a structured and detailed summary of the meeting for future reference, "
-    "including key decisions, rationale, unresolved issues, and proposed next steps. "
-    "Provide a clear recommendation regarding the agenda, and answer all agenda "
-    "questions (if any) while strictly adhering to the agenda rules."
+    "Summarize the meeting log strictly in Markdown: "
+    "## Decisions (with Rationale)\n"
+    "## Unresolved Issues\n"
+    "## Next Steps\n"
+    "## Answer to Agenda\n"
+    "Ignore pleasantries. Ensure all technical constraints are captured."
 )
 
 MERGE_PROMPT = (
-    "Read the summaries of multiple meetings about the same agenda. Produce a single, "
-    "coherent answer that merges the strongest and most consistent components of each "
-    "summary. Preserve correctness, avoid contradictions, and explicitly explain which "
-    "elements came from which summary and why they were selected."
+    "Consolidate multiple summaries into one coherent answer. "
+    "Rules: 1. Resolve contradictions by prioritizing Specificity and Evidence. "
+    "2. Explicitly cite which summary contributed which point. "
+    "3. Discard vague or redundant info."
 )
 
 REWRITE_PROMPT = "This script needs to be improved. Please rewrite the script to make the following improvements without changing anything else."
@@ -365,14 +363,9 @@ def individual_meeting_agent_prompt(
 
 
 CODING_RULES = (
-    "Your code must be self-contained (with appropriate imports) and complete.",
-    "Your code may not include any undefined or unimplemented variables or functions.",
-    "Your code may not include any pseudocode; it must be fully functioning code.",
-    "Your code may not include any hard-coded examples.",
-    "If your code needs user-provided values, write code to parse those values from the command line.",
-    "Your code must be high quality, well-engineered, efficient, and well-documented (including docstrings, comments, and Python type hints if using Python).",
-    "Code must be modular, with each function having a single clearly defined responsibility.",
-    "If interacting with external data sources (e.g., files, APIs, databases), include error handling and validate inputs.",
-    "Whenever processing structured data (e.g., CSV, JSON), document expected schema and assumptions clearly in comments or docstrings.",
+    "OUTPUT FORMAT: Production-grade, fully executable Python (no pseudocode/undefined).",
+    "STYLE: Modular (SRP), PEP 8 compliant, fully Type-hinted, and Docstringed.",
+    "INPUTS: Use `argparse` for params; NO hardcoding.",
+    "ROBUSTNESS: Include error handling for I/O; document data schemas explicitly.",
 )
 
