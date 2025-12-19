@@ -4,36 +4,14 @@
 class Agent:
     """An LLM agent."""
 
-    def __init__(self, title: str, expertise: str, role: str, model: str) -> None:
+    def __init__(self, title: str, pmpt_id: str) -> None:
         """Initializes the agent.
 
         :param title: The title of the agent.
-        :param expertise: The expertise of the agent.
-        :param role: The role of the agent.
+        :param pmpt_id: The prompt ID of the agent.
         """
         self.title = title
-        self.expertise = expertise
-        # self.goal = goal
-        self.role = role
-        self.model = model
-
-    @property
-    def prompt(self) -> str:
-        """Returns the prompt for the agent."""
-        return (
-            f"You are a {self.title}. "
-            f"Your expertise is in {self.expertise}. "
-            # f"Your goal is to {self.goal}. "
-            f"Your role is to {self.role}."
-        )
-
-    @property
-    def message(self) -> dict[str, str]:
-        """Returns the message for the agent in OpenAI API form."""
-        return {
-            "role": "system",
-            "content": self.prompt,
-        }
+        self.pmpt_id = pmpt_id
 
     def __hash__(self) -> int:
         """Returns the hash of the agent."""
@@ -46,10 +24,7 @@ class Agent:
 
         return (
             self.title == other.title
-            and self.expertise == other.expertise
-            # and self.goal == other.goal
-            and self.role == other.role
-            and self.model == other.model
+            and self.pmpt_id == other.pmpt_id
         )
 
     def __str__(self) -> str:

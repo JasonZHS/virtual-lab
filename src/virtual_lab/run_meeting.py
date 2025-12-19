@@ -100,30 +100,19 @@ def run_meeting(
     else:
         team = [team_member] + [SCIENTIFIC_CRITIC]
 
+    """
     # Set up tools
     assistant_params = {"tools": [PUBMED_TOOL_DESCRIPTION]} if pubmed_search else {}
+    """
 
-    # Set up the assistants
-    agent_to_assistant = {
-        agent: client.beta.assistants.create(
-            name=agent.title,
-            instructions=agent.prompt,
-            model=agent.model,
-            **assistant_params,
-        )
-        for agent in team
-    }
-
-    # Map assistant IDs to agents
-    assistant_id_to_title = {
-        assistant.id: agent.title for agent, assistant in agent_to_assistant.items()
-    }
 
     # Set up tool token count
     tool_token_count = 0
 
-    # Set up the thread
-    thread = client.beta.threads.create()
+    # Set up the conversations
+    team_conv = client.conversations.create(
+        metadata={"topic": "team_meeting"}
+)
 
     # Initial prompt for team meeting
     if meeting_type == "team":

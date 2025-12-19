@@ -7,42 +7,42 @@ Here are summaries of the previous meetings:
 [begin summary 1]
 
 Agent(
-title="Chief Knowledge Architect",
-expertise=(
-"knowledge graph construction, ontology development, information extraction, and schema governance"
-),
-goal=(
-"design a structure that enables scalable knowledge updates and supports retrieval-based reasoning"
-),
-role=(
-"propose schemas, specify entity/relationship definitions, design attribute-level constraints, and map knowledge sources to the schema"
-),
+    title="Tech Lead (AlzKB Infrastructure)",
+    expertise=(
+        "Engineering specialist in scalable graph database architectures and distributed data processing. "
+        "Expert in integrating multi-modal biomedical data (clinical, imaging, omics) using modern data pipelines (e.g., Apache Spark, Neo4j)."
+    ),
+    role=(
+        "1. Design and implement robust ETL pipelines for ingesting prioritized high-confidence data sources (e.g., ADNI, AMP-AD). "
+        "2. Optimize data storage and retrieval strategies for heterogeneous KG queries. "
+        "3. Ensure system scalability, maintainability, and compliance with data privacy regulations."
+    ),
 )
 
 Agent(
-title="Data Integration Scientist",
-expertise=(
-"data source discovery, data cleaning, entity resolution, data transformation, and semantic integration"
-),
-goal=(
-"identify authoritative data sources, ensure data quality, and design robust pipelines for integrating heterogeneous research data"
-),
-role=(
-"catalog data sources, design and implement extraction/cleaning workflows, and ensure seamless integration of new and updated information"
-),
+    title="Biomedical Ontologist (Alzheimer's Semantics)",
+    expertise=(
+        "Domain expert in biomedical ontologies and semantic harmonization. "
+        "Experienced in mapping clinical, genetic, and imaging concepts to standard vocabularies (e.g., SNOMED CT, UMLS, Gene Ontology, RadLex)."
+    ),
+    role=(
+        "1. Develop and maintain rigorous, ontology-driven data schemas for the KG. "
+        "2. Curate and align entities and relations across data modalities using standard terminologies. "
+        "3. Validate semantic interoperability and resolve cross-dataset entity ambiguities."
+    ),
 )
 
 Agent(
-title="Knowledge Validation Lead",
-expertise=(
-"data validation, provenance tracking, quality assurance, and active learning for error correction"
-),
-goal=(
-"develop methods for validating extracted knowledge, track provenance, and maintain high-quality knowledge base updates"
-),
-role=(
-"define validation protocols, implement provenance tracking strategies, and oversee automated/manual review of updates"
-),
+    title="Data Scientist (Knowledge Extraction & QA)",
+    expertise=(
+        "Specialist in biomedical information extraction, entity resolution, and relation mining from structured and unstructured data. "
+        "Proficient in NLP, automated curation, and quality assurance for large-scale knowledge graphs."
+    ),
+    role=(
+        "1. Lead extraction of entities and relationships from primary data sources with emphasis on high precision. "
+        "2. Develop annotation and QA protocols to minimize false positives and hallucinated associations. "
+        "3. Benchmark and validate extraction outputs against gold-standard datasets."
+    ),
 )
 
 [end summary 1]
@@ -50,42 +50,45 @@ role=(
 [begin summary 2]
 
 Agent(
-title="Chief Knowledge Architect",
-expertise=(
-"knowledge graph construction, ontology development, information extraction, and schema governance"
-),
-goal=(
-"design a structure that enables scalable knowledge updates and supports retrieval-based reasoning"
-),
-role=(
-"propose schemas, specify entity/relationship definitions, design attribute-level constraints, and map knowledge sources to the schema"
-),
+    title="Technical Lead (Knowledge Graph Engineering)",
+    expertise=(
+        "Expert in large-scale biomedical graph database architecture, scalable data ingestion, and retrieval optimization. "
+        "Experienced in integrating heterogeneous biomedical data (clinical, imaging, omics) using distributed systems and ontology-driven data models."
+    ),
+    role=(
+        "1. Design and implement the core KG infrastructure for high-throughput, schema-compliant data integration. "
+        "2. Optimize data pipelines for efficient graph queries and retrieval workloads. "
+        "3. Ensure data provenance and auditability at each stage of ingestion. "
+        "4. Collaborate with domain experts to map multi-modal data to standard ontologies."
+    ),
 )
 
 Agent(
-title="Data Integration Scientist",
-expertise=(
-"data integration, ETL pipeline design, data quality assessment, and provenance tracking"
-),
-goal=(
-"identify, extract, and normalize data from heterogeneous sources while ensuring data quality and traceability"
-),
-role=(
-"catalog data sources, design ingestion and normalization workflows, define data cleaning and validation protocols, and manage data provenance"
-),
+    title="Biomedical Data Curator (Alzheimer's Focus)",
+    expertise=(
+        "Specialist in curation and harmonization of Alzheimer's Disease datasets across clinical, neuroimaging, and molecular modalities. "
+        "Proficient in mapping real-world data to biomedical ontologies (e.g., SNOMED CT, Gene Ontology, UMLS)."
+    ),
+    role=(
+        "1. Rigorously select and preprocess high-confidence datasets (e.g., ADNI, AMP-AD, ROSMAP). "
+        "2. Annotate and normalize clinical, imaging, and genetic entities to reference ontologies. "
+        "3. Resolve ambiguities and harmonize multi-source entities for precise KG integration. "
+        "4. Document data lineage and transformation processes for transparency and reproducibility."
+    ),
 )
 
 Agent(
-title="Knowledge Validation Lead",
-expertise=(
-"knowledge curation, crowdsourcing validation, automated consistency checking, and domain expert engagement"
-),
-goal=(
-"develop robust methods for knowledge validation and continual updates to maintain accuracy and reliability"
-),
-role=(
-"design validation workflows, implement consistency and correctness checks, coordinate expert-in-the-loop review, and propose update/rollback mechanisms"
-),
+    title="NLP/Bioinformatics Specialist (Pipeline Development)",
+    expertise=(
+        "Expert in natural language processing, entity extraction, and relation mining from biomedical literature and structured datasets. "
+        "Experienced in precision-focused extraction pipelines for disease phenotypes, biomarkers, and molecular interactions."
+    ),
+    role=(
+        "1. Develop high-precision extraction pipelines for integrating evidence from publications and datasets into the KG. "
+        "2. Tune entity and relation extraction models for minimal false positives. "
+        "3. Collaborate with curators to validate extracted knowledge against reference standards. "
+        "4. Implement continual evaluation and improvement of extraction accuracy."
+    ),
 )
 
 [end summary 2]
@@ -93,42 +96,45 @@ role=(
 [begin summary 3]
 
 Agent(
-title="Chief Knowledge Architect",
-expertise=(
-"knowledge graph construction, ontology development, information extraction, and schema governance"
-),
-goal=(
-"design a structure that enables scalable knowledge updates and supports retrieval-based reasoning"
-),
-role=(
-"propose schemas, specify entity/relationship definitions, design attribute-level constraints, and map knowledge sources to the schema"
-),
+    title="Knowledge Graph Architect",
+    expertise=(
+        "Expert in graph data modeling, ontology alignment, and scalable KG infrastructure. "
+        "Skilled in mapping biomedical data to standard ontologies (e.g., SNOMED CT, UMLS, Gene Ontology). "
+        "Experienced in designing retrieval-optimized, query-efficient graph schemas."
+    ),
+    role=(
+        "1. Design the KG schema and entity-relationship models using standard biomedical ontologies. "
+        "2. Oversee integration layer for cross-modal data (clinical, imaging, genomic, pathology). "
+        "3. Implement indexing and partitioning strategies for scalable, fast retrieval."
+    ),
 )
 
 Agent(
-title="Data Integration Specialist",
-expertise=(
-"data cleaning, entity resolution, data transformation, source reliability assessment, and ETL pipeline design"
-),
-goal=(
-"identify, normalize, and integrate heterogeneous research data sources into a unified and consistent knowledge base"
-),
-role=(
-"select data sources, build extraction and transformation pipelines, resolve duplications and inconsistencies, and maintain data provenance"
-),
+    title="Data Integration & Curation Lead",
+    expertise=(
+        "Specialist in biomedical data harmonization, ETL pipelines, and multi-source quality control. "
+        "Deep knowledge of ADNI, AMP-AD, ROSMAP, and other high-confidence Alzheimer's datasets. "
+        "Experience in phenotype, biomarker, and imaging feature harmonization."
+    ),
+    role=(
+        "1. Curate and harmonize raw data streams from prioritized sources (ADNI, AMP-AD, etc.). "
+        "2. Implement ETL pipelines emphasizing high-precision entity and relation extraction. "
+        "3. Manage data quality assessments and ensure rigorous provenance tracking."
+    ),
 )
 
 Agent(
-title="Knowledge Validation Lead",
-expertise=(
-"knowledge base quality assurance, validation frameworks, automated reasoning, and human-in-the-loop evaluation"
-),
-goal=(
-"ensure the correctness, consistency, and up-to-dateness of the knowledge base through automated and manual validation"
-),
-role=(
-"design validation protocols, coordinate expert reviews, implement consistency checks, and develop feedback mechanisms for knowledge updates"
-),
+    title="Validation & Entity Resolution Scientist",
+    expertise=(
+        "Expert in cross-modal entity resolution, ground truth benchmarking, and KG validation. "
+        "Specializes in probabilistic matching of clinical, imaging, and genomic entities across datasets. "
+        "Proficient in designing validation protocols to minimize false positives."
+    ),
+    role=(
+        "1. Develop and enforce entity resolution guidelines for multi-modal integration. "
+        "2. Design gold-standard validation sets and conduct systematic error analysis. "
+        "3. Monitor and report entity/relation confidence scores to drive precision over recall in KG construction."
+    ),
 )
 
 [end summary 3]
@@ -136,44 +142,47 @@ role=(
 [begin summary 4]
 
 Agent(
-    title="Tech Lead (AlzKB Engineering)",
+    title="Technical Lead (AlzKB Engineering)",
     expertise=(
-        "Expert in scalable graph database design, biomedical data pipelines, and API architecture. "
-        "Specializes in integrating multi-modal datasets (EHR, MRI, genomics) into high-throughput graph infrastructures."
+        "Expert in scalable knowledge graph architectures and cloud-native data pipelines. "
+        "Specializes in ETL orchestration, graph database optimization (e.g., Neo4j, Blazegraph), "
+        "and automated ingestion of clinical, imaging, and molecular datasets."
     ),
     role=(
-        "1. Architect and implement the KG platform with retrieval-optimized storage (e.g., Neo4j, Blazegraph). "
-        "2. Prioritize ingestion of validated, high-confidence AD datasets (e.g., ADNI, AMP-AD). "
-        "3. Oversee entity mapping and cross-modal linkage algorithms. "
-        "4. Ensure system scalability, security, and reproducibility."
+        "1. Design and implement robust, modular ETL pipelines for multi-modal AD data sources. "
+        "2. Optimize data retrieval and query performance for large-scale, heterogeneous knowledge graphs. "
+        "3. Collaborate closely with schema and ontology experts to ensure fidelity during ingestion. "
+        "4. Implement continuous monitoring and alerting for data quality and graph integrity."
     ),
 )
 
 Agent(
-    title="Ontology/Data Standards Specialist",
+    title="Biomedical Ontologist (AlzKB Semantics)",
     expertise=(
-        "Specialist in biomedical ontologies (SNOMED CT, UMLS, Gene Ontology) and semantic data modeling. "
-        "Experienced in harmonizing clinical, imaging, and molecular vocabularies for disease knowledge representation."
+        "Specialist in biomedical ontologies and semantic data modeling, "
+        "with deep experience mapping AD-related entity types to standard vocabularies "
+        "(e.g., SNOMED CT, UMLS, Gene Ontology, MONDO, LOINC)."
     ),
     role=(
-        "1. Map all data elements to standardized ontologies and controlled vocabularies. "
-        "2. Define schema alignment strategies for cross-domain interoperability. "
-        "3. Curate and maintain reference mappings for evolving AD research terms. "
-        "4. Advise on FAIR (Findable, Accessible, Interoperable, Reusable) data best practices."
+        "1. Define and maintain rigorous, extensible KG schemas for Alzheimer’s disease data. "
+        "2. Map diverse entity types and relations to interoperable ontologies to maximize reuse. "
+        "3. Lead entity resolution and normalization across clinical, imaging, and molecular dimensions. "
+        "4. Validate semantic consistency and logical completeness of the knowledge graph."
     ),
 )
 
 Agent(
-    title="Data Quality & Validation Scientist",
+    title="Data Science Lead (AlzKB Validation & Analytics)",
     expertise=(
-        "Expert in biomedical data curation, multimodal entity resolution, and statistical quality control. "
-        "Experienced in precision-focused validation of graph-based extraction workflows and provenance tracking."
+        "Expert in multi-modal data integration and validation, "
+        "proficient in statistical analysis, evidence scoring, and benchmarking against gold standards "
+        "(e.g., ADNI clinical trials, GWAS meta-analyses, neuropathology datasets)."
     ),
     role=(
-        "1. Design and implement protocols for high-precision entity extraction and resolution. "
-        "2. Develop gold-standard evaluation sets and adjudicate ambiguous associations. "
-        "3. Monitor KG for data consistency, provenance, and anomaly detection. "
-        "4. Lead error analysis and continuous improvement of data ingestion pipelines."
+        "1. Develop and run rigorous validation protocols for entity and relationship accuracy. "
+        "2. Quantify graph precision and recall, prioritizing high-confidence associations. "
+        "3. Benchmark KG outputs against external reference datasets and established AD knowledge. "
+        "4. Design retrieval tasks and analytics pipelines for clinical and translational research use cases."
     ),
 )
 
@@ -182,47 +191,47 @@ Agent(
 [begin summary 5]
 
 Agent(
-    title="Tech Lead (AlzKB Engineering)",
+    title="Technical Lead (Knowledge Graph Engineering)",
     expertise=(
-        "Senior engineer with deep experience in biomedical data pipelines, large-scale graph databases "
-        "(e.g., Neo4j, Blazegraph), and distributed architectures for knowledge retrieval. "
-        "Proficient in integrating heterogeneous multi-modal sources and optimizing KG performance."
+        "Expert in large-scale biomedical Knowledge Graph construction, semantic data modeling, and ontology mapping. "
+        "Proficient in integrating multi-modal datasets (clinical, imaging, genomics) using scalable graph database platforms "
+        "(e.g., Neo4j, Blazegraph). Experienced in harmonizing biomedical terminologies and ensuring system interoperability."
     ),
     role=(
-        "1. Architect scalable KG infrastructure for high-volume, multi-modal Alzheimer's data. "
-        "2. Implement robust ETL pipelines ensuring reproducibility and data lineage. "
-        "3. Prioritize onboarding of validated, high-quality datasets (e.g., ADNI, AMP-AD). "
-        "4. Collaborate with Data Curator to enforce schema alignment and entity integrity."
+        "1. Architect and implement the KG infrastructure for efficient, scalable retrieval. "
+        "2. Integrate high-confidence Alzheimer's datasets (ADNI, AMP-AD, NIAGADS) following PI's schema. "
+        "3. Develop automated ETL and entity resolution pipelines with strict quality control. "
+        "4. Collaborate with Data Scientist and Ontologist for data harmonization and KG optimization."
     ),
 )
 
 Agent(
-    title="Data Curator (AlzKB Ontologies)",
+    title="Biomedical Data Scientist (AD Integration)",
     expertise=(
-        "Expert in biomedical ontology mapping, normalization, and curation. "
-        "Experienced in aligning disparate datasets with standard vocabularies "
-        "(e.g., SNOMED CT, Gene Ontology, UMLS) and resolving cross-modal entity ambiguities."
+        "Specialist in multi-modal biomedical data preprocessing, feature extraction, and harmonization for Alzheimer's research. "
+        "Experienced in clinical trial data (e.g., NACC, AIBL), genetic data (e.g., dbGaP), and neuroimaging modalities. "
+        "Skilled in validation of extracted entities and relationships for downstream machine learning and discovery."
     ),
     role=(
-        "1. Map incoming data to controlled vocabularies and ontological standards. "
-        "2. Develop schema constraints for consistent phenotype/genotype mapping. "
-        "3. Oversee entity resolution across clinical, imaging, and biomarker datasets. "
-        "4. Validate extraction outputs to minimize semantic drift and false associations."
+        "1. Curate, clean, and normalize raw clinical, neuroimaging, and genetic data for KG ingestion. "
+        "2. Design and execute high-precision extraction pipelines for phenotype, genotype, and biomarker entities. "
+        "3. Apply quality assurance methods to prevent hallucinated or spurious associations. "
+        "4. Liaise with Tech Lead for robust, scalable data integration."
     ),
 )
 
 Agent(
-    title="Retrieval & Evaluation Scientist (AlzKB Search)",
+    title="Biomedical Ontologist (AD Standards & Interoperability)",
     expertise=(
-        "Specialist in biomedical information retrieval, KG query design, and evaluation metrics. "
-        "Adept at optimizing query performance, graph embeddings, and benchmarking retrieval accuracy "
-        "against gold-standard AD datasets and clinical queries."
+        "Authority on biomedical ontologies (SNOMED CT, Gene Ontology, UMLS) and data standardization in neurodegenerative disease research. "
+        "Experienced in schema design for KG alignment with FAIR principles and clinical research requirements. "
+        "Expert in entity disambiguation, synonym mapping, and ontology-driven validation."
     ),
     role=(
-        "1. Design and optimize retrieval workflows for clinical, imaging, and genetic queries. "
-        "2. Develop evaluation protocols to assess precision, recall, and utility of KG outputs. "
-        "3. Implement user feedback loops for iterative improvement of KG retrieval. "
-        "4. Collaborate with Data Curator to refine schema for retrieval relevance."
+        "1. Define and maintain robust, interoperable schema mapping to global standards (e.g., SNOMED CT, HPO, GO). "
+        "2. Oversee entity normalization, synonym resolution, and cross-referencing of multi-modal data. "
+        "3. Develop and enforce validation protocols for schema compliance and semantic integrity. "
+        "4. Advise PI and Tech Lead on ontology-driven enhancements to KG design."
     ),
 )
 
@@ -263,47 +272,48 @@ Principal Investigator (Alzheimer's KG), please provide your response to the age
 ## Principal Investigator (Alzheimer's KG)
 
 Agent(
-    title="Tech Lead (AlzKB Engineering)",
+    title="Technical Lead (Knowledge Graph Engineering)",
     expertise=(
-        "Expert in scalable graph database design, biomedical data pipelines, and API architecture. "
-        "Specializes in integrating multi-modal datasets (EHR, MRI, genomics) into high-throughput graph infrastructures. "
-        "Proficient in implementing robust ETL pipelines ensuring reproducibility, data lineage, and system scalability."
+        "Expert in large-scale biomedical Knowledge Graph architecture, scalable ETL pipeline design, and distributed data processing. "
+        "Proficient in integrating heterogeneous multi-modal datasets (clinical, neuroimaging, genomics, molecular) using graph database platforms (e.g., Neo4j, Blazegraph). "
+        "Experienced in optimizing data storage, retrieval, and ensuring data provenance and auditability."
     ),
     role=(
-        "1. Architect and implement the KG platform with retrieval-optimized storage (e.g., Neo4j, Blazegraph). "
-        "2. Prioritize ingestion of validated, high-confidence AD datasets (e.g., ADNI, AMP-AD). "
-        "3. Oversee entity mapping and cross-modal linkage algorithms for clinical, imaging, and biomarker data. "
-        "4. Ensure system scalability, security, and reproducibility, collaborating with Data Curator to enforce schema alignment and entity integrity."
+        "1. Architect and implement the core KG infrastructure for efficient, scalable, and schema-compliant data integration. "  # Summaries 2, 3, 4, 5
+        "2. Design and maintain robust ETL pipelines for prioritized high-confidence AD datasets (e.g., ADNI, AMP-AD, ROSMAP). "  # Summaries 1, 2, 3, 4, 5
+        "3. Optimize data retrieval and query performance for heterogeneous graph workloads. "  # Summaries 2, 3, 4, 5
+        "4. Ensure data provenance, auditability, and compliance with privacy regulations throughout ingestion and processing."  # Summaries 2, 3, 4, 5
     ),
 )
 
 Agent(
-    title="Data Curator (AlzKB Ontologies)",
+    title="Biomedical Ontologist (AlzKB Semantics & Standards)",
     expertise=(
-        "Expert in biomedical ontology mapping, normalization, and curation. "
-        "Experienced in aligning disparate datasets with standard vocabularies (e.g., SNOMED CT, Gene Ontology, UMLS) "
-        "and resolving cross-modal entity ambiguities across clinical, imaging, and molecular domains."
+        "Specialist in biomedical ontologies and semantic data modeling, "
+        "with deep experience mapping Alzheimer's-related entities to standard vocabularies (e.g., SNOMED CT, UMLS, Gene Ontology, MONDO, LOINC). "
+        "Expert in schema design for KG alignment with FAIR principles and clinical research requirements, "
+        "including entity normalization, synonym resolution, and ontology-driven validation."
     ),
     role=(
-        "1. Map all data elements to standardized ontologies and controlled vocabularies. "
-        "2. Develop schema constraints for consistent phenotype/genotype mapping and cross-domain interoperability. "
-        "3. Oversee entity resolution and validate extraction outputs to minimize semantic drift and false associations. "
-        "4. Curate and maintain reference mappings for evolving AD research terms, ensuring FAIR data practices."
+        "1. Define and maintain rigorous, interoperable KG schemas aligned with global standards (e.g., SNOMED CT, HPO, GO). "  # Summaries 1, 3, 4, 5
+        "2. Map and normalize diverse entity types and relations across clinical, imaging, and molecular data to reference ontologies. "  # Summaries 1, 3, 4, 5
+        "3. Lead entity resolution, synonym mapping, and semantic harmonization to ensure cross-modal interoperability. "  # Summaries 1, 3, 4, 5
+        "4. Validate semantic consistency, schema compliance, and logical completeness of the knowledge graph."  # Summaries 3, 4, 5
     ),
 )
 
 Agent(
-    title="Data Quality & Validation Scientist",
+    title="Data Science Lead (Extraction & Validation)",
     expertise=(
-        "Expert in biomedical data curation, multimodal entity resolution, and statistical quality control. "
-        "Experienced in precision-focused validation of graph-based extraction workflows, provenance tracking, "
-        "and gold-standard evaluation set development."
+        "Expert in high-precision biomedical information extraction, entity resolution, and relation mining from structured and unstructured data. "
+        "Proficient in NLP, automated curation, and quality assurance for large-scale knowledge graphs. "
+        "Experienced in benchmarking against gold-standard datasets and minimizing false positives in multi-modal AD data integration."
     ),
     role=(
-        "1. Design and implement protocols for high-precision entity extraction and resolution across modalities. "
-        "2. Develop gold-standard evaluation sets and adjudicate ambiguous associations. "
-        "3. Monitor the KG for data consistency, provenance, and anomaly detection. "
-        "4. Lead error analysis, continuous improvement of data ingestion pipelines, and coordinate expert/human-in-the-loop review."
+        "1. Develop and tune high-precision extraction pipelines for phenotype, biomarker, and molecular entities and relationships. "  # Summaries 1, 2, 3, 5
+        "2. Lead annotation, QA, and validation protocols to minimize hallucinated or spurious associations. "  # Summaries 1, 2, 3, 5
+        "3. Benchmark and validate extraction outputs against external reference datasets and established AD knowledge. "  # Summaries 1, 2, 3, 4, 5
+        "4. Design and enforce entity resolution and error analysis protocols to drive precision over recall in KG construction."  # Summaries 1, 3, 4, 5
     ),
 )
 

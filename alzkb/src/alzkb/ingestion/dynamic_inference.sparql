@@ -1,0 +1,26 @@
+# QUERY: Runtime Assessment of Amyloid Pathology
+# Rationale: Decouples "Fact" (Ingestion) from "Diagnosis" (Inference).
+# Scientific Critic Note: Threshold can be adjusted in query config without re-ingesting data.
+
+PREFIX alzkb: <http://alzkb.ai/ontology/>
+PREFIX chebi: <http://purl.obolibrary.org/obo/>
+
+CONSTRUCT {
+    ?subject alzkb:hasComputedStatus alzkb:AmyloidPositive .
+    ?subject alzkb:evidence ?obs .
+    ?subject alzkb:statusConfidence "High" .
+}
+WHERE {
+    ?subject alzkb:hasObservation ?obs .
+    
+    # 1. Select only AB42 measurements
+    ?obs alzkb:isMeasurementOf chebi:CHEBI_80696 ;
+         alzkb:hasStatisticalProfile ?profile .
+    
+    # 2. Retrieve Z-Score derived from CN Baseline
+    ?profile alzkb:zScore ?z ;
+             alzkb:referenceCohort alzkb:ADNI_CN_Control_Baseline .
+    
+    # 3. Apply Current Clinical Cutoff (e.g., < -1.96 SD)
+    FILTER (?z <= -1.96)
+}

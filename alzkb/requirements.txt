@@ -1,0 +1,12 @@
+google-genai
+pandas
+tqdm
+python-dotenv
+rdflib
+scipy
+numpy
+streamlit
+graphviz
+pandas
+networkx
+requests

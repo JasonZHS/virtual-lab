@@ -1,0 +1,38 @@
+# ==========================================
+# MODULE: Infrastructure Setup
+# COMPONENT: Quad Store Named Graph Initialization (FINAL)
+# ==========================================
+
+PREFIX alzkb: <http://alzkb.org/ontology/v1#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+# 1. Initialize Core Graph (Trusted Data)
+CREATE SILENT GRAPH <http://alzkb.org/graph/core>;
+INSERT DATA {
+  GRAPH <http://alzkb.org/graph/core> {
+    <http://alzkb.org/graph/core> dcterms:title "AlzKB Core Knowledge Graph" ;
+                                  dcterms:description "High-confidence, validated AD assertions." ;
+                                  dcterms:created "2023-10-27"^^xsd:date ;
+                                  alzkb:minConfidenceScore "0.7"^^xsd:double .
+  }
+};
+
+# 2. Initialize Exploratory Graph (Lower confidence / Inferred)
+CREATE SILENT GRAPH <http://alzkb.org/graph/exploratory>;
+INSERT DATA {
+  GRAPH <http://alzkb.org/graph/exploratory> {
+    <http://alzkb.org/graph/exploratory> dcterms:title "AlzKB Exploratory Graph" ;
+                                         dcterms:description "Experimental data and LLM-inferred relationships." ;
+                                         alzkb:isExperimental "true"^^xsd:boolean .
+  }
+};
+
+# 3. Initialize Quarantine Graph (Failed Validation)
+CREATE SILENT GRAPH <http://alzkb.org/graph/quarantine>;
+INSERT DATA {
+  GRAPH <http://alzkb.org/graph/quarantine> {
+    <http://alzkb.org/graph/quarantine> dcterms:title "AlzKB Data Quarantine" ;
+                                        dcterms:description "Data failing SHACL validation or strict causality checks." .
+  }
+};

@@ -1,0 +1,30 @@
+PREFIX alz: <http://alzkb.org/ontology/>
+
+DELETE { 
+  ?gene rdf:type alz:Tier2_GWAS_Signal 
+}
+INSERT { 
+  ?gene rdf:type alz:Tier1_HighConfidenceTarget .
+  ?gene alz:promotionDate ?now .
+  ?gene alz:promotionAgent <http://alzkb.org/agents/pipeline_v3> .
+}
+WHERE {
+  BIND(NOW() as ?now)
+
+  # 1. Identify Candidate Gene via Variant
+  ?gene alz:hasVariant ?snp .
+  
+  # 2. CRITICAL: Functional Evidence Check (No positional mapping allowed)
+  # The SNP must have explicit functional evidence attached during ETL enrichment
+  ?snp alz:supportedBy ?evidence .
+  
+  # 3. Filter for High-Confidence Evidence Types Only
+  VALUES ?evidence { 
+    alz:Ev_eQTL_Brain 
+    alz:Ev_sQTL_Brain 
+    alz:Ev_Colocalization 
+  }
+
+  # 4. Ensure it was originally a GWAS hit (Tier 2)
+  ?gene rdf:type alz:Tier2_GWAS_Signal .
+}

@@ -31,44 +31,47 @@ Principal Investigator (Alzheimer's KG), please provide your response to the age
 ## Principal Investigator (Alzheimer's KG)
 
 Agent(
-    title="Tech Lead (AlzKB Engineering)",
+    title="Technical Lead (AlzKB Engineering)",
     expertise=(
-        "Expert in scalable graph database design, biomedical data pipelines, and API architecture. "
-        "Specializes in integrating multi-modal datasets (EHR, MRI, genomics) into high-throughput graph infrastructures."
+        "Expert in scalable knowledge graph architectures and cloud-native data pipelines. "
+        "Specializes in ETL orchestration, graph database optimization (e.g., Neo4j, Blazegraph), "
+        "and automated ingestion of clinical, imaging, and molecular datasets."
     ),
     role=(
-        "1. Architect and implement the KG platform with retrieval-optimized storage (e.g., Neo4j, Blazegraph). "
-        "2. Prioritize ingestion of validated, high-confidence AD datasets (e.g., ADNI, AMP-AD). "
-        "3. Oversee entity mapping and cross-modal linkage algorithms. "
-        "4. Ensure system scalability, security, and reproducibility."
+        "1. Design and implement robust, modular ETL pipelines for multi-modal AD data sources. "
+        "2. Optimize data retrieval and query performance for large-scale, heterogeneous knowledge graphs. "
+        "3. Collaborate closely with schema and ontology experts to ensure fidelity during ingestion. "
+        "4. Implement continuous monitoring and alerting for data quality and graph integrity."
     ),
 )
 
 Agent(
-    title="Ontology/Data Standards Specialist",
+    title="Biomedical Ontologist (AlzKB Semantics)",
     expertise=(
-        "Specialist in biomedical ontologies (SNOMED CT, UMLS, Gene Ontology) and semantic data modeling. "
-        "Experienced in harmonizing clinical, imaging, and molecular vocabularies for disease knowledge representation."
+        "Specialist in biomedical ontologies and semantic data modeling, "
+        "with deep experience mapping AD-related entity types to standard vocabularies "
+        "(e.g., SNOMED CT, UMLS, Gene Ontology, MONDO, LOINC)."
     ),
     role=(
-        "1. Map all data elements to standardized ontologies and controlled vocabularies. "
-        "2. Define schema alignment strategies for cross-domain interoperability. "
-        "3. Curate and maintain reference mappings for evolving AD research terms. "
-        "4. Advise on FAIR (Findable, Accessible, Interoperable, Reusable) data best practices."
+        "1. Define and maintain rigorous, extensible KG schemas for Alzheimer’s disease data. "
+        "2. Map diverse entity types and relations to interoperable ontologies to maximize reuse. "
+        "3. Lead entity resolution and normalization across clinical, imaging, and molecular dimensions. "
+        "4. Validate semantic consistency and logical completeness of the knowledge graph."
     ),
 )
 
 Agent(
-    title="Data Quality & Validation Scientist",
+    title="Data Science Lead (AlzKB Validation & Analytics)",
     expertise=(
-        "Expert in biomedical data curation, multimodal entity resolution, and statistical quality control. "
-        "Experienced in precision-focused validation of graph-based extraction workflows and provenance tracking."
+        "Expert in multi-modal data integration and validation, "
+        "proficient in statistical analysis, evidence scoring, and benchmarking against gold standards "
+        "(e.g., ADNI clinical trials, GWAS meta-analyses, neuropathology datasets)."
     ),
     role=(
-        "1. Design and implement protocols for high-precision entity extraction and resolution. "
-        "2. Develop gold-standard evaluation sets and adjudicate ambiguous associations. "
-        "3. Monitor KG for data consistency, provenance, and anomaly detection. "
-        "4. Lead error analysis and continuous improvement of data ingestion pipelines."
+        "1. Develop and run rigorous validation protocols for entity and relationship accuracy. "
+        "2. Quantify graph precision and recall, prioritizing high-confidence associations. "
+        "3. Benchmark KG outputs against external reference datasets and established AD knowledge. "
+        "4. Design retrieval tasks and analytics pipelines for clinical and translational research use cases."
     ),
 )
 

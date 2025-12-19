@@ -8,68 +8,35 @@ from virtual_lab.constants import DEFAULT_MODEL
 
 PRINCIPAL_INVESTIGATOR = Agent(
     title="Principal Investigator (Alzheimer's KG)",
-    # 合并了 Expertise 和 Goal，去除了废话
-    # 增加了 Specificity: "AD-specific ontologies", "multimodal integration"
-    expertise=(
-        "Lead scientist specializing in Alzheimer's Disease (AD) data integration. "
-        "Expert in constructing heterogeneous Knowledge Graphs connecting clinical phenotypes, "
-        "neuroimaging features, genetic biomarkers (e.g., APOE), and tau/amyloid pathology."
-    ),
-    # 将 Role 转化为具体的 Actionable Instructions
-    role=(
-        "1. Define rigorous schemas aligning with standard ontologies (e.g., SNOMED CT, Gene Ontology). "
-        "2. Direct the Tech Lead to prioritize high-confidence data sources (e.g., ADNI, AMP-AD). "
-        "3. Review extraction pipelines for precision over recall to prevent hallucinated associations. "
-        "4. Enforce strict validation protocols for entity resolution across multi-modal datasets."
-    ),
-    model=DEFAULT_MODEL,
+    pmpt_id="pmpt_6941b28aa8cc8195b9b85b9275ac409d01ad2a7aae4e361d",
 )
 
 
 SCIENTIFIC_CRITIC = Agent(
     title="Scientific Critic (AlzKB)",
-    # 注入 AD 领域知识 + 具体的 KG 质量标准
-    expertise=(
-        "Expert in validating biomedical Knowledge Graphs for Alzheimer's Disease. "
-        "Specializes in detecting methodological flaws such as: conflating murine/human data, "
-        "imprecise ontology mappings (e.g., 'dementia' vs 'AD'), and circular reasoning in evaluation. "
-        "Focus on biological plausibility and data provenance."
-    ),
-    # 具体的 Action List，防止复读
-    role=(
-        "1. AUDIT SCHEMAS: Reject generic edges like 'associated_with'. Demand specific biological predicates (e.g., 'phosphorylates', 'downregulates'). "
-        "2. CHECK PROVENANCE: Verify that extraction pipelines require linking every triple back to a PubMed ID or dataset row. "
-        "3. STRESS TEST: Identify gaps in Entity Resolution (e.g., distinguishing 'Abeta40' from 'Abeta42'). "
-        "4. ENFORCE METRICS: Reject qualitative promises. Demand quantitative metrics (Precision, Recall, F1) on a Gold Standard subset."
-    ),
-    model=DEFAULT_MODEL,
+    pmpt_id="pmpt_6941b414d4e8819783ffb859f1abf2d809353cd8045ca477",
 )
 
 
-SYNTHESIS_PROMPT = (
-    "Synthesize team inputs. 1. Identify agreements vs. conflicts. "
-    "2. Resolve conflicts using provided evidence; favor data over opinion. "
-    "3. Decide the agenda status. 4. Ask 1 concrete question to clarify ambiguity if needed. "
-    "Be concise."
-)
+SYNTHESIS_PROMPT = {
+    "id": "pmpt_6941b4f51ca881949f2b805ecbbe736a033f9bb65322d3e3",
+    "version": "1"
+  }
 
-SUMMARY_PROMPT = (
-    "Summarize the meeting log strictly in Markdown: "
-    "## Decisions (with Rationale)\n"
-    "## Unresolved Issues\n"
-    "## Next Steps\n"
-    "## Answer to Agenda\n"
-    "Ignore pleasantries. Ensure all technical constraints are captured."
-)
+SUMMARY_PROMPT = {
+    "id": "pmpt_6941b57b3e908196ab887d9c9f62350e0fcf1965cf4cf05f",
+    "version": "1"
+  }
 
-MERGE_PROMPT = (
-    "Consolidate multiple summaries into one coherent answer. "
-    "Rules: 1. Resolve contradictions by prioritizing Specificity and Evidence. "
-    "2. Explicitly cite which summary contributed which point. "
-    "3. Discard vague or redundant info."
-)
+MERGE_PROMPT = {
+    "id": "pmpt_6941b5ac14d4819398391de4c3c695600bc1e3ec6b1317b2",
+    "version": "1"
+  }
 
-REWRITE_PROMPT = "This script needs to be improved. Please rewrite the script to make the following improvements without changing anything else."
+REWRITE_PROMPT = {
+    "id": "pmpt_6941b5ea8468819385bee00e2367a77a0296601f2f2a9493",
+    "version": "1"
+  }
 
 
 def create_merge_prompt(

@@ -1,0 +1,40 @@
+# -----------------------------------------------------------------------------
+# QUERY TITLE: ATN Framework Stress Test (Strict IRI Matching)
+# ROLE: Validation & Benchmarking
+# GOAL: Verify high-confidence associations for Gold Standard ATN markers 
+#       (Amyloid Precursor Protein & Microtubule-associated protein tau)
+#       using defined ontology predicates.
+# -----------------------------------------------------------------------------
+
+PREFIX alzkb: <http://alzkb.org/ontology/v1#>
+PREFIX uniprot: <http://purl.uniprot.org/uniprot/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?markerLabel ?outcomeLabel ?p_value ?confidence
+WHERE {
+    # 1. Define Gold Standard ATN Markers via Strict IRIs
+    VALUES ?markerURI { 
+        uniprot:P05067  # APP (Amyloid Precursor Protein)
+        uniprot:P10636  # MAPT (Microtubule-associated protein tau)
+    }
+
+    # 2. Find the marker label for readability
+    ?markerURI rdfs:label ?markerLabel .
+
+    # 3. Find Statistical Profiles where these markers are the Exposure
+    ?statProfile a alzkb:CohortStatisticalProfile ;
+                 alzkb:hasExposure ?markerURI ;
+                 alzkb:hasOutcome ?outcomeURI ;
+                 alzkb:hasPValue ?p_value ;
+                 alzkb:computedConfidenceScore ?confidence .
+
+    # 4. Resolve Outcome Label
+    ?outcomeURI rdfs:label ?outcomeLabel .
+
+    # 5. Validation Logic: 
+    # The graph passes the stress test if we find significant associations (p < 0.05)
+    # AND high confidence (> 0.7) for these specific proteins.
+    FILTER (?p_value < 0.05 && ?confidence > 0.7)
+}
+ORDER BY DESC(?confidence)
+LIMIT 20

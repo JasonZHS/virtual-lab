@@ -9,7 +9,7 @@ from virtual_lab.prompts import (
 )
 
 # Meetings constants
-num_iterations = 2
+num_iterations = 5
 num_rounds = 2
 
 # Models
@@ -38,8 +38,6 @@ discussions_phase_to_dir = {phase: discussions_dir / phase for phase in phases}
 # Prompts
 background_prompt = "Task: Build a scalable, retrieval-optimized Knowledge Graph for Alzheimer's Disease research."
 
-nanobody_prompt = "Your team previous decided to modify existing nanobodies to improve their binding to the newest variant of the SARS-CoV-2 spike protein."
-
 experimental_results_prompt = """Your team has designed 92 mutated nanobodies (23 each for the wild-type nanobodies H11-D4, Nb21, Ty1, and VHH-72) to improve their binding to the KP.3 variant of the SARS-CoV-2 spike protein receptor binding domain (RBD). Each nanobody has 1-4 mutations relative to the wild-type nanobody. Your team used ESM log-likelihood ratios (ESM LLR) to score the nanobody mutations independent of the antigen, AlphaFold-Multimer to predict the structure of the mutated nanobody in complex with the KP.3 RBD and compute the interface pLDDT (AF ipLDDT) as a metric of binding confidence, and Rosetta to calculate the binding energy of the mutated nanobody in complex with the KP.3 RBD (RS dG) based on the AlphaFold-Multimer predicted structure followed by a Rosetta relaxation. You have ranked the mutant nanobodies and selected the top ones using a weighted score of WS = 0.2 * (ESM LLR) + 0.5 * (AF ipLDDT) - 0. 3 * (RS dG). The 92 selected nanobodies were tested along with the four wild-type nanobodies using an ELISA assay to measure binding to the Wuhan, JN.1, KP.3, KP2.3, and BA.2 strains of the SARS-CoV-2 spike RBD. Note that the JN.1 strain is closely related to KP.3 and KP2.3. BSA was used as a negative control. Most of the mutated nanobodies showed at least moderate expression levels. The ELISA results are as follows:
 
 H11-D4: The wild-type only binds to the Wuhan RBD. Most mutants show binding to the Wuhan RBD as well, including one with a higher binding level than the wild-type. However, that mutant and two others bind non-specifically to the negative control BSA along with other strains of the SARS-CoV-2 RBD. No mutant nanobody shows specific binding to any strain other than the Wuhan RBD.
@@ -50,48 +48,7 @@ Ty1: The wild-type only binds to the Wuhan RBD. Many mutant nanobodies do not sh
 
 VHH-72: The wild-type only binds to the Wuhan RBD. Most mutants show binding to the Wuhan RBD as well, including several with a higher binding level than the wild-type. Two mutant nanobodies bind non-specifically to BSA and several RBD strains. No mutant nanobody shows specific binding to any strain other than the Wuhan RBD."""
 
-# Set up agents
-
-# Generic agent
-generic_agent = Agent(
-    title="Assistant",
-    expertise="helping people with their problems",
-    #goal="help people with their problems",
-    role="help people with their problems",
-    model=model,
-)
-
-# Generic team lead
-generic_team_lead = Agent(
-    title=f"{generic_agent.title} Lead",
-    expertise=generic_agent.expertise,
-    #goal=generic_agent.goal,
-    role=generic_agent.role,
-    model=model,
-)
-
-# Generic team
-generic_team = [
-    Agent(
-        title=f"{generic_agent.title} {i}",
-        expertise=generic_agent.expertise,
-        #goal=generic_agent.goal,
-        role=generic_agent.role,
-        model=model,
-    )
-    for i in range(1, 5)
-]
-
 # Team lead
-"""
-principal_investigator = Agent(
-    title="Principal Investigator",
-    expertise="applying artificial intelligence to biomedical research",
-    goal="perform research in your area of expertise that maximizes the scientific impact of the work",
-    role="lead a team of experts to solve an important problem in artificial intelligence for biomedicine, make key decisions about the project direction based on team member input, and manage the project timeline and resources",
-    model=model,
-)
-"""
 principal_investigator = PRINCIPAL_INVESTIGATOR
 
 # Scientific critic
@@ -99,57 +56,24 @@ scientific_critic = SCIENTIFIC_CRITIC
 
 # Specialized science agents
 tech_lead = Agent(
-    title="Tech Lead (AlzKB Engineering)",
-    expertise=(
-        "Expert in scalable graph database design, biomedical data pipelines, and API architecture. "
-        "Specializes in integrating multi-modal datasets (EHR, MRI, genomics) into high-throughput graph infrastructures. "
-        "Proficient in implementing robust ETL pipelines ensuring reproducibility, data lineage, and system scalability."
-    ),
-    role=(
-        "1. Architect and implement the KG platform with retrieval-optimized storage (e.g., Neo4j, Blazegraph). "
-        "2. Prioritize ingestion of validated, high-confidence AD datasets (e.g., ADNI, AMP-AD). "
-        "3. Oversee entity mapping and cross-modal linkage algorithms for clinical, imaging, and biomarker data. "
-        "4. Ensure system scalability, security, and reproducibility, collaborating with Data Curator to enforce schema alignment and entity integrity."
-    ),
-    model=model,
+    title="Technical Lead (Knowledge Graph Engineering)",
+    pmpt_id="pmpt_6941b77f88348195bff2ed9ed0148451024613165d1bbb44"
 )
 
-data_curator = Agent(
-    title="Data Curator (AlzKB Ontologies)",
-    expertise=(
-        "Expert in biomedical ontology mapping, normalization, and curation. "
-        "Experienced in aligning disparate datasets with standard vocabularies (e.g., SNOMED CT, Gene Ontology, UMLS) "
-        "and resolving cross-modal entity ambiguities across clinical, imaging, and molecular domains."
-    ),
-    role=(
-        "1. Map all data elements to standardized ontologies and controlled vocabularies. "
-        "2. Develop schema constraints for consistent phenotype/genotype mapping and cross-domain interoperability. "
-        "3. Oversee entity resolution and validate extraction outputs to minimize semantic drift and false associations. "
-        "4. Curate and maintain reference mappings for evolving AD research terms, ensuring FAIR data practices."
-    ),
-    model=model,
+biomedical_ontologist = Agent(
+    title="Biomedical Ontologist (AlzKB Semantics & Standards)",
+    pmpt_id="pmpt_6941b7c77ebc819687179422f891a4920a83ea68522465ed"
 )
 
-validation_scientist = Agent(
-    title="Data Quality & Validation Scientist",
-    expertise=(
-        "Expert in biomedical data curation, multimodal entity resolution, and statistical quality control. "
-        "Experienced in precision-focused validation of graph-based extraction workflows, provenance tracking, "
-        "and gold-standard evaluation set development."
-    ),
-    role=(
-        "1. Design and implement protocols for high-precision entity extraction and resolution across modalities. "
-        "2. Develop gold-standard evaluation sets and adjudicate ambiguous associations. "
-        "3. Monitor the KG for data consistency, provenance, and anomaly detection. "
-        "4. Lead error analysis, continuous improvement of data ingestion pipelines, and coordinate expert/human-in-the-loop review."
-    ),
-    model=model,
+data_scientist = Agent(
+    title="Data Science Lead (Extraction & Validation)",
+    pmpt_id="pmpt_6941b80175a88193b20002b59cbd5a040cf2afff1a51fbbf"
 )
 
 # Team members
 team_members = (
-    scientific_critic,
     tech_lead,
-    data_curator,
-    validation_scientist,
+    biomedical_ontologist,
+    data_scientist,
+    scientific_critic,
 )

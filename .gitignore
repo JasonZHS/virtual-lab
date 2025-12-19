@@ -165,4 +165,6 @@ cython_debug/
 .DS_Store
 
 # Papers
-nanobody_design/discussions/finetuning/papers
+
+# Data (Added for AlzKB)
+alzkb/data/

@@ -1,0 +1,197 @@
+@prefix : <http://alzkb.org/ontology/v1#> .
+@prefix alzkb: <http://alzkb.org/ontology/v1#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix obo: <http://purl.obolibrary.org/obo/> .
+
+<http://alzkb.org/ontology/v1>
+    a owl:Ontology ;
+    rdfs:label "AlzKB Ontology: Core Schema and Shapes" ;
+    rdfs:comment "Structural and semantic logic for the Alzheimer's Knowledge Graph." ;
+    owl:versionInfo "1.0.1" .
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://alzkb.org/ontology/v1#CohortStatisticalProfile
+alzkb:CohortStatisticalProfile
+    a owl:Class ;
+    rdfs:subClassOf obo:STATO_0000039 ; # STATO: statistic
+    rdfs:subClassOf alzkb:NormalizedValue ;
+    rdfs:label "Cohort Statistical Profile" ;
+    rdfs:comment "A quantitative profile derived from statistical analysis of a patient cohort, encompassing p-values, effect sizes, and confidence scores." .
+
+###  http://alzkb.org/ontology/v1#NormalizedValue
+alzkb:NormalizedValue
+    a owl:Class ;
+    rdfs:label "Normalized Data Value" ;
+    rdfs:comment "A superclass for any data entity that has undergone ETL normalization and provenance tracking." .
+
+###  http://alzkb.org/ontology/v1#GenomicVariant
+alzkb:GenomicVariant
+    a owl:Class ;
+    rdfs:subClassOf obo:SO_0001060 ; # Sequence Ontology: sequence_variant
+    rdfs:label "Genomic Variant" ;
+    rdfs:comment "A specific genetic alteration or allele, canonicalized for cross-study alignment." .
+
+#################################################################
+#    Properties
+#################################################################
+
+###  http://alzkb.org/ontology/v1#last_updated
+:last_updated rdf:type owl:DatatypeProperty ;
+    rdfs:domain :CohortStatisticalProfile ;
+    rdfs:range xsd:dateTime ;
+    rdfs:label "last updated" .
+
+###  http://alzkb.org/ontology/v1#hasMeanValue
+alzkb:hasMeanValue
+    a owl:DatatypeProperty ;
+    rdfs:domain alzkb:CohortStatisticalProfile ;
+    rdfs:range xsd:double ;
+    rdfs:label "has mean value" .
+
+###  http://alzkb.org/ontology/v1#hasPValue
+alzkb:hasPValue
+    a owl:DatatypeProperty ;
+    rdfs:domain alzkb:CohortStatisticalProfile ;
+    rdfs:range xsd:double ;
+    rdfs:label "has p-value" .
+
+###  http://alzkb.org/ontology/v1#hasSampleSize
+alzkb:hasSampleSize
+    a owl:DatatypeProperty ;
+    rdfs:domain alzkb:CohortStatisticalProfile ;
+    rdfs:range xsd:nonNegativeInteger ;
+    rdfs:label "has sample size" .
+
+###  http://alzkb.org/ontology/v1#computedConfidenceScore
+alzkb:computedConfidenceScore
+    a owl:DatatypeProperty ;
+    rdfs:domain alzkb:CohortStatisticalProfile ;
+    rdfs:range xsd:double ;
+    rdfs:label "computed confidence score" ;
+    rdfs:comment "A composite metric derived from statistical significance and statistical power. Calculation logic resides in the ETL pipeline." .
+
+#################################################################
+#    Individuals (Canonical Entities)
+#################################################################
+
+###  http://alzkb.org/ontology/v1#APOE_e4
+alzkb:APOE_e4
+    a alzkb:GenomicVariant, owl:NamedIndividual ;
+    rdfs:label "APOE epsilon 4 allele" ;
+    owl:sameAs <http://alzkb.org/data/allele/APOE_e4> .
+
+#################################################################
+#    SHACL Shapes (Validation)
+#################################################################
+
+###  http://alzkb.org/ontology/v1#NormalizedValueShape
+alzkb:NormalizedValueShape
+    a sh:NodeShape ;
+    sh:targetClass alzkb:NormalizedValue ;
+    sh:property [
+        sh:path prov:wasDerivedFrom ;
+        sh:minCount 1 ;
+        sh:message "Structural Integrity Error: All normalized values must link to their source provenance (prov:wasDerivedFrom)." ;
+    ] .
+
+###  http://alzkb.org/ontology/v1#GenomicVariantShape
+alzkb:GenomicVariantShape
+    a sh:NodeShape ;
+    sh:targetClass alzkb:GenomicVariant ;
+    sh:property [
+        sh:path alzkb:computedConfidenceScore ;
+        sh:maxCount 0 ; # Variants themselves don't have scores, profiles do.
+    ] ;
+    # Revised Pattern: Allows both data namespace and ontology reference individuals
+    sh:nodeKind sh:IRI ;
+    sh:pattern "^http://alzkb.org/(data/|ontology/v1#)" ;
+    sh:message "Entity Resolution Error: Genomic Variants must follow the canonical URI pattern http://alzkb.org/data/... or be defined as ontology reference terms." .
+
+###  http://alzkb.org/ontology/v1#StatisticalProfileIntegrity
+alzkb:StatisticalProfileIntegrity
+    a sh:NodeShape ;
+    sh:targetClass alzkb:CohortStatisticalProfile ;
+    sh:property [
+        sh:path alzkb:computedConfidenceScore ;
+        sh:datatype xsd:double ;
+        sh:minInclusive 0.0 ;
+        sh:maxInclusive 1.0 ;
+        sh:message "Logic Error: Confidence Score must be between 0.0 and 1.0." ;
+    ] ;
+    sh:property [
+        sh:path alzkb:hasSampleSize ;
+        sh:datatype xsd:nonNegativeInteger ;
+        sh:minInclusive 1 ;
+        sh:message "Logic Error: Sample size must be a positive integer." ;
+    ] .
+
+#################################################################
+#    New Properties (Validation Phase)
+#################################################################
+
+###  http://alzkb.org/ontology/v1#hasExposure
+alzkb:hasExposure
+    a owl:ObjectProperty ;
+    rdfs:label "has exposure" ;
+    rdfs:domain alzkb:CohortStatisticalProfile ;
+    rdfs:range owl:Thing ;
+    rdfs:comment "The independent variable or genetic variant in a statistical association." .
+
+###  http://alzkb.org/ontology/v1#hasOutcome
+alzkb:hasOutcome
+    a owl:ObjectProperty ;
+    rdfs:label "has outcome" ;
+    rdfs:domain alzkb:CohortStatisticalProfile ;
+    rdfs:range owl:Thing ;
+    rdfs:comment "The dependent variable, phenotype, or trait in a statistical association." .
+
+###  http://alzkb.org/ontology/v1#ADNI_CN_Control_Baseline
+alzkb:ADNI_CN_Control_Baseline
+    a alzkb:CohortStatisticalProfile, owl:NamedIndividual ;
+    rdfs:label "ADNI Cognitively Normal Baseline" ;
+    rdfs:comment "The statistical reference profile derived from Amyloid-Negative, Cognitively Normal controls in ADNI." .
+
+#################################################################
+#    Phase III: Validation & Entity Resolution
+#################################################################
+
+###  http://alzkb.org/ontology/v1#FunctionalGenomicEvidence
+alzkb:FunctionalGenomicEvidence
+    a owl:Class ;
+    rdfs:label "Functional Genomic Evidence" .
+
+###  http://alzkb.org/ontology/v1#Ev_eQTL_Brain
+alzkb:Ev_eQTL_Brain
+    a alzkb:FunctionalGenomicEvidence, owl:NamedIndividual ;
+    rdfs:label "Brain eQTL Evidence" ;
+    rdfs:comment "Variant affects gene expression in brain tissue (AMP-AD/GTEx)." .
+
+###  http://alzkb.org/ontology/v1#Ev_Colocalization
+alzkb:Ev_Colocalization
+    a alzkb:FunctionalGenomicEvidence, owl:NamedIndividual ;
+    rdfs:label "Colocalization Evidence" .
+
+###  http://alzkb.org/ontology/v1#GenotypeConfig
+alzkb:GenotypeConfig
+    a owl:Class ;
+    rdfs:label "Genotype Configuration" .
+
+###  http://alzkb.org/ontology/v1#APOE_e3e4
+alzkb:APOE_e3e4
+    a alzkb:GenotypeConfig, owl:NamedIndividual ;
+    rdfs:label "APOE e3/e4 Genotype" ;
+    alzkb:hasRiskProfile alzkb:HighRisk .
+
+###  http://alzkb.org/ontology/v1#APOE_e4e4
+alzkb:APOE_e4e4
+    a alzkb:GenotypeConfig, owl:NamedIndividual ;
+    rdfs:label "APOE e4/e4 Genotype" ;
+    alzkb:hasRiskProfile alzkb:VeryHighRisk .
