@@ -1,0 +1,31 @@
+pathway_id,pathway_name,species,is_disease,has_diagram,search_term
+R-HSA-8862803,Deregulated CDK5 triggers multiple neurodegenerative pathways in Alzheimer's disease models,Homo sapiens,True,True,Alzheimer
+R-HSA-9675126,Diseases of mitotic cell cycle,Homo sapiens,True,True,Alzheimer
+R-HSA-9656249,Defective Base Excision Repair Associated with OGG1,Homo sapiens,True,True,Alzheimer
+R-HSA-9656256,Defective OGG1 Substrate Processing,Homo sapiens,True,True,Alzheimer
+R-HSA-977225,Amyloid fiber formation,Homo sapiens,False,True,amyloid
+R-HSA-419812,Calcitonin-like ligand receptors,Homo sapiens,False,False,amyloid
+R-HSA-9768777,Regulation of NPAS4 gene transcription,Homo sapiens,False,False,amyloid
+R-HSA-1236394,Signaling by ERBB4,Homo sapiens,False,True,amyloid
+R-HSA-193692,Regulated proteolysis of p75NTR,Homo sapiens,False,False,amyloid
+R-HSA-4085011,"Defective GNE causes sialuria, NK and IBM2",Homo sapiens,True,True,amyloid
+R-HSA-879415,Advanced glycosylation endproduct receptor signaling,Homo sapiens,False,True,amyloid
+R-HSA-392499,Metabolism of proteins,Homo sapiens,False,True,amyloid
+R-HSA-8863678,Neurodegenerative Diseases,Homo sapiens,True,True,amyloid
+R-HSA-9619483,Activation of AMPK downstream of NMDARs,Homo sapiens,False,False,tau
+R-HSA-9634815,Transcriptional Regulation by NPAS4,Homo sapiens,False,True,tau
+R-HSA-9833482,PKR-mediated signaling,Homo sapiens,False,True,tau
+R-HSA-5578999,Defective GCLC causes HAGGSD,Homo sapiens,True,True,neurodegeneration
+R-HSA-5579006,Defective GSS causes GSS deficiency,Homo sapiens,True,True,neurodegeneration
+R-HSA-8949664,Processing of SMDT1,Homo sapiens,False,True,neurodegeneration
+R-HSA-5579022,Defective GGT1 causes GLUTH,Homo sapiens,True,True,neurodegeneration
+R-HSA-9035968,Defective GGT1 in aflatoxin detoxification causes GLUTH,Homo sapiens,True,True,neurodegeneration
+R-HSA-5578998,Defective OPLAH causes OPLAHD,Homo sapiens,True,True,neurodegeneration
+R-HSA-5619070,Defective SLC16A1 causes symptomatic deficiency in lactate transport (SDLT),Homo sapiens,True,True,neurodegeneration
+R-HSA-5579029,Metabolic disorders of biological oxidation enzymes,Homo sapiens,True,True,neurodegeneration
+R-HSA-9916722,3-hydroxyisobutyryl-CoA hydrolase deficiency,Homo sapiens,True,True,neurodegeneration
+R-HSA-9837999,Mitochondrial protein degradation,Homo sapiens,False,True,neurodegeneration
+R-HSA-9629232,Defective Base Excision Repair Associated with NEIL3,Homo sapiens,True,True,APOE
+R-HSA-432142,Platelet sensitization by LDL,Homo sapiens,False,False,APOE
+R-HSA-9029569,NR1H3 & NR1H2 regulate gene expression linked to cholesterol transport and efflux,Homo sapiens,False,False,APOE
+R-HSA-8964058,HDL remodeling,Homo sapiens,False,False,APOE

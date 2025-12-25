@@ -1,0 +1,29 @@
+{
+  "source": "disgenet",
+  "download_timestamp": "2025-12-25T03:05:52.445011",
+  "api_base": "https://api.disgenet.com/api/v1",
+  "genes_queried": [
+    351,
+    348,
+    4137,
+    5663,
+    5664,
+    23621,
+    54209,
+    9619,
+    10347,
+    1636,
+    80308,
+    8878,
+    6622,
+    7124,
+    3553,
+    3569,
+    2475,
+    1956,
+    7422,
+    5594
+  ],
+  "filter": "Alzheimer/Dementia diseases, score >= 0.5",
+  "total_records": 42
+}

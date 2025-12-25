@@ -1,7 +1,7 @@
 """Runs a meeting with LLM agents using Google GenAI."""
 
 import os
-from typing import Literal, List, Dict, Any
+from typing import Literal, List, Dict, Any, Union
 from google import genai
 from google.genai import types
 from dotenv import load_dotenv
@@ -15,6 +15,8 @@ from alzkb.constants import (
     SCIENTIFIC_CRITIC,
     PRINCIPAL_INVESTIGATOR,
 )
+from alzkb.meeting_result import MeetingResult, create_meeting_result
+
 
 def run_meeting(
     meeting_type: Literal["team", "individual"],
@@ -24,9 +26,10 @@ def run_meeting(
     team_members: tuple[Agent, ...] | None = None,
     team_member: Agent | None = None,
     num_rounds: int = 1,
-    model_name: str = MODEL_FLASH, # Allow selection
-    history: List[str] | None = None, # Optional initial history (legacy, or to seed chat)
-) -> Any: # Returns the chat object or transcript
+    model_name: str = MODEL_FLASH,
+    history: List[str] | None = None,
+    generate_summaries: bool = True,
+) -> MeetingResult:
     """
     Runs a meeting (multi-agent discussion) using Google Gemini Chat.
 
@@ -39,12 +42,11 @@ def run_meeting(
     :param num_rounds: Number of discussion rounds.
     :param model_name: The Gemini model to use.
     :param history: Optional list of strings to seed the chat context.
-    :return: The chat object containing history.
+    :param generate_summaries: Whether to generate narrative and structured summaries.
+    :return: MeetingResult containing chat, summaries, and metadata.
     """
     
     # 1. Initialize Client (implicitly uses GOOGLE_API_KEY from env)
-    # The user has configured .zshrc, but we also check for .env using load_dotenv just in case.
-    # Note: Jupyter kernels might need a restart to pick up new .zshrc changes.
     client = genai.Client()
     
     # 2. Setup Team
@@ -53,13 +55,12 @@ def run_meeting(
         if not team_lead or not team_members:
             raise ValueError("Team meetings require a lead and members.")
         participants = [team_lead] + list(team_members)
-    else: # Individual
+    else:  # Individual
         if not team_member:
             raise ValueError("Individual meetings require a team_member.")
         participants = [team_member, SCIENTIFIC_CRITIC]
 
     # 3. Initialize Conversation (Chat Session)
-    # We create a chat session. The 'history' logic here is handled by the model.
     chat = client.chats.create(model=model_name)
     
     # Context string
@@ -75,8 +76,6 @@ def run_meeting(
         
         for i, agent in enumerate(participants):
             # Construct the specific prompt for this agent's turn.
-            
-            # Base persona instruction
             turn_prompt = (
                 f"ACT AS: {agent.title}\n"
                 f"YOUR SPECIFIC INSTRUCTIONS: {agent.system_prompt}\n"
@@ -100,27 +99,21 @@ def run_meeting(
             except Exception as e:
                 print(f"Error calling model for {agent.title}: {e}")
 
-    # 5. Summary
-    # If team_lead is present (Team meeting), they summarize.
-    # If individual meeting, the team_member (e.g. PI) summarizes.
-    summarizer = team_lead
-    if not summarizer and meeting_type == "individual":
-        summarizer = team_member
+    # 5. Determine summarizer
+    summarizer = team_lead if team_lead else team_member
+    summarizer_title = summarizer.title if summarizer else "System"
 
-    if summarizer:
-        print("\n--- Generating Summary ---")
-        # Use the specific SUMMARY_PROMPT defined in constants
-        from alzkb.constants import SUMMARY_PROMPT
-        
-        summary_instruction = (
-            f"ACT AS: {summarizer.title}\n"
-            f"{SUMMARY_PROMPT}"
-        )
-        try:
-             response = chat.send_message(summary_instruction)
-             if response.text:
-                print(f"\n>> SUMMARY ({summarizer.title}):\n{response.text[:200]}...")
-        except Exception as e:
-            print(f"Error generating summary: {e}")
-
-    return chat # Return the chat object so we can access .get_history()
+    # 6. Generate MeetingResult with summaries
+    print("\n--- Generating Summaries ---")
+    result = create_meeting_result(
+        topic=topic,
+        chat=chat,
+        summarizer_title=summarizer_title,
+        model_name=model_name,
+        generate_summaries=generate_summaries,
+    )
+    
+    if result.summary_text:
+        print(f"\n>> SUMMARY:\n{result.summary_text[:300]}...")
+    
+    return result

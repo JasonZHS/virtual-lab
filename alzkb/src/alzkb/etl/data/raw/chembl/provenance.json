@@ -1,0 +1,21 @@
+{
+  "source": "chembl",
+  "download_timestamp": "2025-12-25T02:53:44.700078",
+  "source_url": "https://www.ebi.ac.uk/chembl/api/data/activity",
+  "files": [
+    "E:\\projects\\virtual-lab\\virtual-lab\\alzkb\\src\\alzkb\\etl\\data\\raw\\chembl\\target_bioactivities.csv"
+  ],
+  "engineer_notes": "Precision-filtered raw ingestion v1.1",
+  "metadata": {
+    "targets": [
+      "CHEMBL2487",
+      "CHEMBL3776",
+      "CHEMBL260",
+      "CHEMBL2115",
+      "CHEMBL2014",
+      "CHEMBL2015",
+      "CHEMBL2579",
+      "CHEMBL2987"
+    ]
+  }
+}

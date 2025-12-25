@@ -99,6 +99,19 @@ Focus on actionable decisions, agreed-upon items, and any open questions that ne
 CRITICAL: If the meeting objective was to define specific items (like Agents, schemas, or code), you MUST provide the FINAL REVISED version of these items in your summary, incorporating the feedback received.
 """
 
+STRUCTURED_SUMMARY_PROMPT = """
+Based on the meeting discussion above, extract a structured JSON summary.
+OUTPUT FORMAT (JSON only, no markdown code fences, no explanatory text):
+{
+    "decisions": ["Decision 1", "Decision 2", ...],
+    "action_items": ["Task 1 (Owner)", "Task 2 (Owner)", ...],
+    "status": "COMPLETE" or "IN_PROGRESS" or "BLOCKED",
+    "key_context": "A 2-3 sentence summary to provide as context for the next phase."
+}
+
+IMPORTANT: Output ONLY valid JSON. No markdown, no explanations before or after.
+"""
+
 CODE_GENERATION_RULES = """
 CRITICAL CODE GENERATION RULES:
 1. OUTPUT FORMAT: Provide ONLY the code block (e.g., Python, Turtle, SPARQL). Do not wrap it in markdown triple backticks if possible, or if you do, ensure it is clean.

@@ -1,0 +1,194 @@
+@prefix : <http://www.alzkb.ai/ontology/v1#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+# External Ontology Prefixes
+@prefix snomed: <http://snomed.info/id/> .
+@prefix go: <http://purl.obolibrary.org/obo/GO_> .
+@prefix doid: <http://purl.obolibrary.org/obo/DOID_> .
+@prefix uniprot: <http://purl.uniprot.org/core/> .
+@prefix cl: <http://www.alzkb.ai/clinical/> .
+
+<http://www.alzkb.ai/ontology/v1> rdf:type owl:Ontology ;
+    rdfs:comment "AlzKB Core Ontology V1.1 (Revised): Implements Reified Logic Layer."@en ;
+    owl:versionInfo "1.1.0-STABLE" .
+
+#################################################################
+#    Classes: Core & Haplotype Backbone
+#################################################################
+
+:Patient rdf:type owl:Class ;
+    rdfs:label "Patient" ;
+    rdfs:subClassOf snomed:116154003 .
+
+:BiologicalEntity rdf:type owl:Class .
+
+:Gene rdf:type owl:Class ;
+    rdfs:subClassOf :BiologicalEntity .
+
+:Protein rdf:type owl:Class ;
+    rdfs:subClassOf :BiologicalEntity .
+
+:Genotype rdf:type owl:Class .
+:Allele rdf:type owl:Class .
+
+:ZygosityStatus rdf:type owl:Class ;
+    owl:oneOf (:Homozygous :Heterozygous) .
+
+:BiomarkerStatus rdf:type owl:Class ;
+    owl:oneOf (:Positive :Negative) .
+
+#################################################################
+#    Classes: Logic Layer (Reified Associations)
+#################################################################
+
+:HypothesisAssociation rdf:type owl:Class ;
+    rdfs:label "Hypothesis Association" ;
+    rdfs:comment "A reified node representing a statistical or inferred link between biological entities, carrying metadata like p-values." .
+
+#################################################################
+#    Object Properties
+#################################################################
+
+# --- Haplotype Properties ---
+:has_genotype rdf:type owl:ObjectProperty ;
+    rdfs:domain :Patient ;
+    rdfs:range :Genotype .
+
+:composed_of rdf:type owl:ObjectProperty ;
+    rdfs:domain :Genotype ;
+    rdfs:range :Allele .
+
+:variant_of rdf:type owl:ObjectProperty ;
+    rdfs:domain :Allele ;
+    rdfs:range :Gene .
+
+:has_zygosity rdf:type owl:ObjectProperty ;
+    rdfs:domain :Genotype ;
+    rdfs:range :ZygosityStatus .
+
+# --- Clinical Properties ---
+:has_biomarker_status rdf:type owl:ObjectProperty ;
+    rdfs:domain :Patient ;
+    rdfs:range :BiomarkerStatus .
+
+:has_amyloid_status rdfs:subPropertyOf :has_biomarker_status .
+:has_tau_status rdfs:subPropertyOf :has_biomarker_status .
+
+# --- Logic Layer Properties ---
+
+# Strict / Proven (Direct Edge)
+cl:has_mechanism_of_action rdf:type owl:ObjectProperty ;
+    rdfs:label "has mechanism of action (proven)" ;
+    rdfs:domain :TherapeuticIntervention ;
+    rdfs:range :BiologicalEntity .
+
+# Hypothesized (Reified Edges)
+:has_association_source rdf:type owl:ObjectProperty ;
+    rdfs:domain :HypothesisAssociation ;
+    rdfs:range :BiologicalEntity .
+
+:has_association_target rdf:type owl:ObjectProperty ;
+    rdfs:domain :HypothesisAssociation ;
+    rdfs:range :BiologicalEntity .
+
+#################################################################
+#    Data Properties
+#################################################################
+
+:has_mmse_score rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Patient ;
+    rdfs:range xsd:integer .
+
+:has_cdr_global_score rdf:type owl:DatatypeProperty ;
+    rdfs:domain :Patient ;
+    rdfs:range xsd:decimal .  # Changed to decimal for precision
+
+# Logic Layer Metadata
+:p_value rdf:type owl:DatatypeProperty ;
+    rdfs:domain :HypothesisAssociation ;
+    rdfs:range xsd:double .
+
+:inference_confidence rdf:type owl:DatatypeProperty ;
+    rdfs:domain :HypothesisAssociation ;
+    rdfs:range xsd:string .
+
+#################################################################
+#    DEFINED CLASS: Cognitive Resilience
+#################################################################
+
+:Cognitive_Resilience rdf:type owl:Class ;
+    rdfs:label "Cognitive Resilience" ;
+    owl:equivalentClass [
+        owl:intersectionOf (
+            :Patient
+            [ rdf:type owl:Restriction ;
+              owl:onProperty :has_amyloid_status ;
+              owl:hasValue :Positive
+            ]
+            [ rdf:type owl:Restriction ;
+              owl:onProperty :has_tau_status ;
+              owl:hasValue :Positive
+            ]
+            [ rdf:type owl:Restriction ;
+              owl:onProperty :has_cdr_global_score ;
+              owl:hasValue "0.0"^^xsd:decimal
+            ]
+            [ rdf:type owl:Restriction ;
+              owl:onProperty :has_mmse_score ;
+              owl:someValuesFrom [
+                  rdf:type rdfs:Datatype ;
+                  owl:onDatatype xsd:integer ;
+                  owl:withRestrictions ( [ xsd:minInclusive 29 ] )
+              ]
+            ]
+        )
+    ] .
+
+#################################################################
+#    SHACL Constraints
+#################################################################
+
+:HypothesisShape a sh:NodeShape ;
+    sh:targetClass :HypothesisAssociation ;
+    sh:property [
+        sh:path :p_value ;
+        sh:datatype xsd:double ;
+        sh:maxCount 1 ;
+        sh:minCount 1 ;
+        sh:message "Hypotheses must have exactly one p-value." ;
+    ] ;
+    sh:property [
+        sh:path :inference_confidence ;
+        sh:in ("LOW" "MEDIUM" "HIGH") ;
+        sh:minCount 1 ;
+        sh:message "Hypotheses must have a valid confidence level (LOW, MEDIUM, HIGH)." ;
+    ] ;
+    sh:property [
+        sh:path :has_association_source ;
+        sh:minCount 1 ;
+        sh:class :BiologicalEntity ;
+    ] ;
+    sh:property [
+        sh:path :has_association_target ;
+        sh:minCount 1 ;
+        sh:class :BiologicalEntity ;
+    ] .
+
+#################################################################
+#    Canonical Individuals
+#################################################################
+
+:Positive a :BiomarkerStatus, owl:NamedIndividual .
+:Negative a :BiomarkerStatus, owl:NamedIndividual .
+:Homozygous a :ZygosityStatus, owl:NamedIndividual .
+:Heterozygous a :ZygosityStatus, owl:NamedIndividual .
+
+:APOE_Gene a :Gene, owl:NamedIndividual .
+:APOE_e4 a :Allele, owl:NamedIndividual ;
+    :variant_of :APOE_Gene .

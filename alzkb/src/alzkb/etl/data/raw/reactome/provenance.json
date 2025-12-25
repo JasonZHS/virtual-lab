@@ -1,0 +1,21 @@
+{
+  "source": "reactome",
+  "method": "Content Service API",
+  "download_timestamp": "2025-12-25T03:17:15.886910",
+  "api_base": "https://reactome.org/ContentService",
+  "search_terms": [
+    "Alzheimer",
+    "amyloid",
+    "tau",
+    "neurodegeneration",
+    "APOE"
+  ],
+  "genes_queried": [
+    "P05067",
+    "P02649",
+    "P10636",
+    "P49768",
+    "Q99497"
+  ],
+  "total_pathways": 30
+}
